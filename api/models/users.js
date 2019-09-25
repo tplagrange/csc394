@@ -2,6 +2,7 @@ var mongoose = require( 'mongoose' );
 var crypto = require('crypto');
 var jwt = require('jsonwebtoken');
 
+// This is the mongoDB schema for the 'User' model
 var userSchema = new mongoose.Schema({
   email: {
     type: String,
@@ -35,7 +36,7 @@ userSchema.methods.generateJwt = function() {
     email: this.email,
     name: this.name,
     exp: parseInt(expiry.getTime() / 1000),
-  }, "MY_SECRET"); // DO NOT KEEP YOUR SECRET IN THE CODE!
+  }, process.env.DB_SECRET); // Secret is only known by server - set one for your machine for local development
 };
 
 mongoose.model('User', userSchema);

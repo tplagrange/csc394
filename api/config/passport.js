@@ -1,7 +1,7 @@
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var mongoose = require('mongoose');
-var User = mongoose.model('User');
+var User = mongoose.model('User'); // This is where we pull in the user model from MongoDB
 
 passport.use(new LocalStrategy({
     usernameField: 'email'
