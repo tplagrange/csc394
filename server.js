@@ -14,6 +14,10 @@ var routesApi = require('./api/routes/index');
 
 var app = express();
 
+// Create link to Angular build directory
+var distDir = __dirname + "/dist/";
+app.use(express.static(distDir));
+
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));
@@ -65,14 +69,6 @@ app.use(function(err, req, res, next) {
         message: err.message,
         error: {}
     });
-});
-
-// Serve only the static files form the dist directory
-app.use(express.static(__dirname + '/dist/csc394'));
-
-app.get('/*', function(req,res) {
-    
-res.sendFile(path.join(__dirname+'/dist/csc394/index.html'));
 });
 
 app.listen(process.env.PORT || 8080);
