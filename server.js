@@ -71,6 +71,13 @@ app.use(function(err, req, res, next) {
     });
 });
 
+// Serve only the static files form the dist directory
+app.use(express.static(__dirname + '/dist/csc394'));
+
+app.get('/', function(req,res) {
+    res.sendFile(path.join(__dirname+'/dist/csc394/index.html'));
+});
+
 app.listen(process.env.PORT || 8080);
 
 module.exports = app;
