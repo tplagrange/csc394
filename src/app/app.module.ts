@@ -1,4 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
+// import { CommonModule } from '@angular/common'
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
@@ -12,10 +13,14 @@ import { ProfileComponent } from './_components';
 import { LoginComponent } from './_components';
 import { RegisterComponent } from './_components';
 import { HomeComponent } from './_components';
+import { TableRowComponent } from './_components';
+import { TableComponent } from './_components';
+
 
 // Services
 import { AuthenticationService } from './_services';
 import { AuthGuardService } from './_services';
+import { AlertService } from './_services';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -31,10 +36,13 @@ const routes: Routes = [
     ProfileComponent,
     LoginComponent,
     RegisterComponent,
-    HomeComponent
+    HomeComponent,
+    TableRowComponent,
+    TableComponent
   ],
   imports: [
     BrowserModule,
+    // CommonModule,
     FormsModule,
     HttpClientModule,
     RouterModule.forRoot(routes),

@@ -8,9 +8,11 @@ var auth = jwt({
 
 var ctrlProfile = require('../controllers/profile');
 var ctrlAuth = require('../controllers/authentication');
+var ctrlTasks = require('../controllers/taskList');
 
 // profile
 router.get('/profile', auth, ctrlProfile.profileRead);
+router.get('/tasks', auth, ctrlTasks.getTasks)
 
 // authentication
 router.post('/register', ctrlAuth.register);

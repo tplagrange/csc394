@@ -5,11 +5,21 @@ import { map } from 'rxjs/operators/map';
 import { Router } from '@angular/router';
 
 export interface UserDetails {
-  _id: string;
+  _id: number;
   email: string;
   name: string;
   exp: number;
   iat: number;
+}
+
+export interface TaskDetails {
+  _id: number;
+  assignedTo: number;
+  description: string;
+  status: string;
+  reviewedBy: number;
+  dueDate: string;
+  rating: string;
 }
 
 interface TokenResponse {
@@ -61,7 +71,7 @@ export class AuthenticationService {
     }
   }
 
-  private request(method: 'post'|'get', type: 'login'|'register'|'profile', user?: TokenPayload): Observable<any> {
+  private request(method: 'post'|'get', type: 'login'|'register'|'profile'|'tasks', user?: TokenPayload): Observable<any> {
     let base;
 
     if (method === 'post') {
