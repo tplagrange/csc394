@@ -15,7 +15,7 @@ var taskSchema = new mongoose.Schema({
   rating: String
 });
 
-// Add the mongoose-auto-increment plugin to this scheme
+// Add the mongoose-auto-increment plugin to this schema
 taskSchema.plugin(autoIncrement.plugin, 'Task')
 
 taskSchema.methods.setAssignment = function(userID) {

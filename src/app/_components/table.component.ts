@@ -14,14 +14,12 @@ export class TableComponent {
     constructor(private auth: AuthenticationService) {}
 
     ngOnInit() {
-        this.columns = ["Assigned To", "Task ID", "Description", "Status", "Reviewed By", "Due Date", "Rating"];
+        this.columns = this.auth.columns()
         this.tasks = new Array(0);
-        this.auth.tasks().subscribe(tasklist => {
-            tasklist.forEach(task => {
-                this.tasks.push(task);
-            });
+        this.auth.tasks().subscribe(taskArray => {
+          this.tasks = taskArray;
         }, (err) => {
-            console.error(err);
+          console.error(err);
         });
     }
 

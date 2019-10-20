@@ -2,7 +2,7 @@
   <tr>
     <th *ngFor="let c of columns">{{c}}</th>
   </tr>
-  <app-table-row *ngFor="let ta of tasks | async"
+  <app-table-row *ngFor="let ta of tasks"
       app-table-row
       [task]="ta"
       [columns]="columns">
