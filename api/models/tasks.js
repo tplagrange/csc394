@@ -1,24 +1,23 @@
-var mongoose = require( 'mongoose' );
+var mongoose = require('mongoose'),
+    autoIncrement = require('mongoose-auto-increment');
 
 // This is the mongoDB schema for the 'Task' model
 var taskSchema = new mongoose.Schema({
-  id: {
-    type: Number,
-    unique: true,
-    required: true
+  assignedTo: {
+      type: Number, ref: 'User'
   },
-  assignedTo: Number,
   description: String,
   status: String,
-  reviewedBy: Number,
+  reviewedBy: {
+      type: Number, ref: 'User'
+  },
   dueDate: Date,
-  rating: Number
+  rating: String
 });
 
-// userSchema.methods.setPassword = function(password){
-//   this.salt = crypto.randomBytes(16).toString('hex');
-//   this.hash = crypto.pbkdf2Sync(password, this.salt, 1000, 64, 'sha512').toString('hex');
-// };
+// Add the mongoose-auto-increment plugin to this scheme
+taskSchema.plugin(autoIncrement.plugin, 'Task')
+
 taskSchema.methods.setAssignment = function(userID) {
     this.assignedTo = userID
 }

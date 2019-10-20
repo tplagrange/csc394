@@ -1,4 +1,5 @@
-var mongoose = require('mongoose');
+var mongoose = require('mongoose'),
+    autoIncrement = require('mongoose-auto-increment');
 var gracefulShutdown;
 var dbURI = 'mongodb://localhost/meanAuth';
 if (process.env.NODE_ENV === 'production') {
@@ -6,6 +7,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 mongoose.connect(dbURI);
+autoIncrement.initialize(mongoose.connection)
 
 // CONNECTION EVENTS
 mongoose.connection.on('connected', function() {

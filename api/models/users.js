@@ -1,4 +1,5 @@
-var mongoose = require( 'mongoose' );
+var mongoose = require('mongoose'),
+    autoIncrement = require('mongoose-auto-increment');
 var crypto = require('crypto');
 var jwt = require('jsonwebtoken');
 
@@ -16,6 +17,9 @@ var userSchema = new mongoose.Schema({
   hash: String,
   salt: String
 });
+
+// Add the mongoose-auto-increment plugin to this schema
+userSchema.plugin(autoIncrement.plugin, 'User')
 
 userSchema.methods.setPassword = function(password){
   this.salt = crypto.randomBytes(16).toString('hex');
