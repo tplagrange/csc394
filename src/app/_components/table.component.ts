@@ -17,6 +17,8 @@ export class TableComponent {
         this.columns = this.auth.columns()
         this.tasks = new Array(0);
         this.auth.tasks().subscribe(taskArray => {
+            // console.log("Returning tasks")
+            // console.log(taskArray)
           this.tasks = taskArray;
         }, (err) => {
           console.error(err);

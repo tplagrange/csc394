@@ -1,10 +1,12 @@
 <table>
   <tr>
-    <th *ngFor="let c of columns">{{c}}</th>
+    <th *ngFor="let col of columns">
+      {{col}}
+    </th>
   </tr>
-  <app-table-row *ngFor="let ta of tasks"
-      app-table-row
-      [task]="ta"
-      [columns]="columns">
-  </app-table-row>
+  <tr *ngFor="let task of tasks">
+    <td *ngFor="let col of columns">
+      {{task[col]}}
+    </td>
+  </tr>
 </table>
