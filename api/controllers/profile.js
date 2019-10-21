@@ -3,7 +3,7 @@ var User = mongoose.model('User');
 
 module.exports.profileRead = function(req, res) {
 
-  if (!req.payload._id) {
+  if (!req.payload.exp) {
     res.status(401).json({
       "message" : "UnauthorizedError: private profile"
     });

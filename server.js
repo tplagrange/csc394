@@ -14,12 +14,12 @@ var routesApi = require('./api/routes/index');
 
 var app = express();
 
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 // Create link to Angular build directory
 var distDir = __dirname + "/dist/";
 app.use(express.static(distDir));
 
 // uncomment after placing your favicon in /public
-//app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
