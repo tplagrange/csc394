@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource, MatIconRegistry  } from '@angular/material';
+import { DomSanitizer } from '@angular/platform-browser';
 import { AuthenticationService, TaskDetails } from '../_services';
 import { Task } from '../_classes';
 
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
-  styleUrls: ['/table-component.css']
+  styleUrls: ['/table.component.css']
 })
 
 export class TableComponent {
@@ -16,7 +17,7 @@ export class TableComponent {
 
     // DataSource and Column names for table
     dsTasks: MatTableDataSource<Task>;
-    dcTasks = ["assignedTo", "description", "status", "reviewedBy", "dueDate", "rating"];
+    dcTasks: string[] = ["assignedTo", "description", "status", "reviewedBy", "dueDate", "rating"];
 
     // UI Variables
     selectedTask: Task;
@@ -36,6 +37,7 @@ export class TableComponent {
             for (let taskItem of taskArray) {
                 this.tasks.push(new Task(taskItem));
             }
+            this.updateTableTasks();
         }, (err) => {
             console.error(err);
         });
@@ -74,5 +76,7 @@ export class TableComponent {
 
     updateTableTasks() {
         this.dsTasks.data = this.tasks;
+        console.log(this.dsTasks);
+        console.log(this.dsTasks.data);
     }
 }

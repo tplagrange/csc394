@@ -15,7 +15,7 @@ export class Task {
         this.description = td.description;
         this.status = td.status;
         this.reviewedBy = td.reviewedBy;
-        this.dueDate = td.dueDate;
+        this.dueDate = td.dueDate.toString();
         this.rating = td.rating;
     }
 }

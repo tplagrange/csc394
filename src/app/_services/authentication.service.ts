@@ -18,7 +18,7 @@ export interface TaskDetails {
   description: string;
   status: string;
   reviewedBy: number;
-  dueDate: string;
+  dueDate: Date;
   rating: string;
 }
 
