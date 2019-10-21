@@ -108,10 +108,6 @@ export class AuthenticationService {
     return this.request('get', 'tasks');
   }
 
-  public columns(): string[] {
-    return ["Assigned To", "Task ID", "Description", "Status", "Reviewed By", "Due Date", "Rating"]
-  }
-
   public logout(): void {
     this.token = '';
     window.localStorage.removeItem('mean-token');

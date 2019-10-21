@@ -1,12 +1,113 @@
-<table>
-  <tr>
-    <th *ngFor="let col of columns">
-      {{col}}
-    </th>
-  </tr>
-  <tr *ngFor="let task of tasks">
-    <td *ngFor="let col of columns">
-      {{task[col]}}
-    </td>
-  </tr>
+<mat-accordion>
+	<mat-expansion-panel [expanded]='f_firstPanel' [disabled]='!f_firstPanel'>
+		<mat-expansion-panel-header>
+			<mat-panel-title>Tasks</mat-panel-title>
+		</mat-expansion-panel-header>
+		<table mat-table [dataSource]="dsTasks" class="mat-elevation-z8">
+			<ng-container matColumnDef="assignedTo">
+				<th mat-header-cell *matHeaderCellDef> Assignment </th>
+				<td mat-cell *matCellDef="let task"> {{task.assignedTo}} </td>
+			</ng-container>
+			<ng-container matColumnDef="description">
+				<th mat-header-cell *matHeaderCellDef> Description </th>
+				<td mat-cell *matCellDef="let task"> {{task.description}} </td>
+			</ng-container>
+			<ng-container matColumnDef="status">
+				<th mat-header-cell *matHeaderCellDef> Status </th>
+				<td mat-cell *matCellDef="let task"> {{task.status}} </td>
+			</ng-container>
+			<ng-container matColumnDef="reviewedBy">
+				<th mat-header-cell *matHeaderCellDef> Reviewer </th>
+				<td mat-cell *matCellDef="let task"> {{task.reviewedBy}} </td>
+			</ng-container>
+            <ng-container matColumnDef="dueDate">
+                <th mat-header-cell *matHeaderCellDef> Due Date </th>
+                <td mat-cell *matCellDef="let task"> {{task.dueDate} </td>
+            </ng-container>
+            <ng-container matColumnDef="rating">
+                <th mat-header-cell *matHeaderCellDef> Rating </th>
+                <td mat-cell *matCellDef="let task"> {{task.rating}} </td>
+            </ng-container>
+			<ng-container matColumnDef="edit">
+				<th mat-header-cell *matHeaderCellDef> Edit </th>
+				<td mat-cell *matCellDef="let task">
+					<button mat-raised-button color="primary" (click)='editTrainer(trainer)'> Edit
+			</button>
+		</td>
+	</ng-container>
+	<tr mat-header-row *matHeaderRowDef="dcTasks"></tr>
+	<tr mat-row *matRowDef="let row; columns: dcTasks;"></tr>
 </table>
+	</mat-expansion-panel>
+  	<mat-expansion-panel [expanded]='f_secondPanel' [disabled]='!f_secondPanel'>
+		<mat-expansion-panel-header>
+			<mat-panel-title>Editing the Task</mat-panel-title>
+		</mat-expansion-panel-header>
+    <!-- <mat-tab-group>
+  <mat-tab label="Pokemon">
+<h4>Pokemon Choose</h4>
+<mat-form-field>
+  <mat-select [(ngModel)]="pokemonToAdd" placeholder="Pokemon list">
+    <mat-option *ngFor="let pokemon of pokemons"  [value]="pokemon">
+      {{pokemon.name}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+ <button mat-raised-button (click)="addPokemon()" style="margin: 10px">Add Pokemon</button>
+<br>
+<table mat-table [dataSource]="dsPokemons" class="mat-elevation-z8">
+			<ng-container matColumnDef="kdex">
+				<th mat-header-cell *matHeaderCellDef> Kdex </th>
+				<td mat-cell *matCellDef="let pokemon"> {{pokemon.kdex}} </td>
+			</ng-container>
+			<ng-container matColumnDef="name">
+				<th mat-header-cell *matHeaderCellDef> Name </th>
+				<td mat-cell *matCellDef="let pokemon"> {{pokemon.name}} </td>
+			</ng-container>
+			<ng-container matColumnDef="type">
+				<th mat-header-cell *matHeaderCellDef> Type </th>
+				<td mat-cell *matCellDef="let pokemon"> {{pokemon.type}}	</td>
+	</ng-container>
+	<tr mat-header-row *matHeaderRowDef="dcPokemons"></tr>
+	<tr mat-row *matRowDef="let row; columns: dcPokemons;"></tr>
+</table>
+  </mat-tab>
+  <mat-tab label="Badges">
+
+<h4>Badge Choose</h4>
+<mat-form-field>
+  <mat-select [(ngModel)]="badgeToAdd" placeholder="Badge list">
+    <mat-option *ngFor="let badge of badges"  [value]="badge">
+      {{badge.name}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+ <button mat-raised-button (click)="addBadge()" style="margin: 10px">Add Badge</button>
+<br>
+<table mat-table [dataSource]="dsBadges" class="mat-elevation-z8">
+			<ng-container matColumnDef="name">
+				<th mat-header-cell *matHeaderCellDef> Name </th>
+				<td mat-cell *matCellDef="let badge"> {{badge.name}} </td>
+			</ng-container>
+			<ng-container matColumnDef="giver">
+				<th mat-header-cell *matHeaderCellDef> Giver </th>
+				<td mat-cell *matCellDef="let badge"> {{badge.giverName}} </td>
+			</ng-container>
+			<ng-container matColumnDef="description">
+				<th mat-header-cell *matHeaderCellDef> Description </th>
+				<td mat-cell *matCellDef="let badge"> {{badge.description}}	</td>
+	</ng-container>
+	<tr mat-header-row *matHeaderRowDef="dcBadges"></tr>
+	<tr mat-row *matRowDef="let row; columns: dcBadges;"></tr>
+</table> -->
+
+
+  <!-- </mat-tab>
+</mat-tab-group> -->
+<br>
+<div style="margin: auto">
+<button mat-raised-button color="primary" style="margin: 30px" (click)="finishEdit()">Finish</button>
+<button mat-raised-button color="primary" style="margin: 30px" (click)="cancelEdit()">Cancel</button>
+</div>
+    </mat-expansion-panel>
+</mat-accordion>
