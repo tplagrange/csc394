@@ -16,6 +16,7 @@ import { HomeComponent } from './_components';
 // Services
 import { AuthenticationService } from './_services';
 import { AuthGuardService } from './_services';
+import { FooterComponent } from './footer/footer.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -31,7 +32,8 @@ const routes: Routes = [
     ProfileComponent,
     LoginComponent,
     RegisterComponent,
-    HomeComponent
+    HomeComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
