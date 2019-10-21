@@ -4,5 +4,4 @@ export * from './login.component';
 export * from './home.component';
 export * from './profile.component';
 export * from './register.component';
-export * from './table-row.component';
 export * from './table.component';
