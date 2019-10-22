@@ -17,7 +17,7 @@ export class TableComponent {
 
     // DataSource and Column names for table
     dsTasks: MatTableDataSource<Task>;
-    dcTasks: string[] = ["assignedTo", "description", "status", "reviewedBy", "dueDate", "rating"];
+    dcTasks: string[] = ["assignedTo", "description", "status", "reviewedBy", "dueDate", "rating", "edit"];
 
     // UI Variables
     selectedTask: Task;
