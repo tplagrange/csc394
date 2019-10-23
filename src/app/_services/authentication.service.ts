@@ -4,6 +4,8 @@ import { Observable } from 'rxjs/Observable';
 import { map } from 'rxjs/operators/map';
 import { Router } from '@angular/router';
 
+import { Task } from '../_classes'
+
 export interface UserDetails {
   _id: number;
   email: string;
@@ -71,7 +73,7 @@ export class AuthenticationService {
     }
   }
 
-  private request(method: 'post'|'get', type: 'login'|'register'|'profile'|'tasks', user?: TokenPayload): Observable<any> {
+  private request(method: 'post' | 'get', type: 'login'|'register'|'profile'|'tasks', user?: TokenPayload): Observable<any> {
     let base;
 
     if (method === 'post') {
@@ -79,6 +81,21 @@ export class AuthenticationService {
     } else {
       base = this.http.get(`/api/${type}`, { headers: { Authorization: `Bearer ${this.getToken()}` }});
     }
+
+    const request = base.pipe(
+      map((data: TokenResponse) => {
+        if (data.token) {
+          this.saveToken(data.token);
+        }
+        return data;
+      })
+    );
+
+    return request;
+  }
+
+  private request(method: 'put', type: 'tasks', task: TaskDetails): Observable<any> {
+    let base = this.http.get(`/api/${type}/${task._id}`, { headers: { Authorization: `Bearer ${this.getToken()}` }});
 
     const request = base.pipe(
       map((data: TokenResponse) => {
@@ -104,8 +121,22 @@ export class AuthenticationService {
     return this.request('get', 'profile');
   }
 
+  // Task Operations
   public tasks(): Observable<any> {
     return this.request('get', 'tasks');
+  }
+
+  public setTaskDescription(task: Task): Observable<any> {
+      var taskDetail: TaskDetails;
+      taskDetail._id = task.id;
+      taskDetail.assignedTo = task.assignedTo;
+      taskDetail description = task.description;
+      taskDetail status = task.status;
+      taskDetail reviewedBy = task.reviewedBy;
+      taskDetail dueDate = task.dueDate;
+      taskDetail rating = task.rating;
+
+      return this.request('put', 'tasks', taskDetail);
   }
 
   public logout(): void {
