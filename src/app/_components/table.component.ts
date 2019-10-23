@@ -21,6 +21,7 @@ export class TableComponent {
 
     // UI Variables
     selectedTask: Task;
+    currentDescription: String;
 
     // Flags that control the expansion panel
     f_firstPanel = false;
@@ -49,6 +50,7 @@ export class TableComponent {
     editTask(task: Task) {
         // this.selectedTask = trainer;
         this.selectedTask = JSON.parse(JSON.stringify(task));
+        this.currentDescription = task.description;
         this.f_firstPanel = false;
         this.f_secondPanel = true;
     }
@@ -76,7 +78,11 @@ export class TableComponent {
 
     updateTableTasks() {
         this.dsTasks.data = this.tasks;
-        console.log(this.dsTasks);
-        console.log(this.dsTasks.data);
+        //console.log(this.dsTasks);
+        //console.log(this.dsTasks.data);
+    }
+
+    setDescription() {
+        console.log("Setting description");
     }
 }

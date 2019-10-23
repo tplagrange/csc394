@@ -94,7 +94,7 @@ export class AuthenticationService {
     return request;
   }
 
-  private request(method: 'put', type: 'tasks', task: TaskDetails): Observable<any> {
+  private putRequest(method: 'put', type: 'tasks', task: TaskDetails): Observable<any> {
     let base = this.http.get(`/api/${type}/${task._id}`, { headers: { Authorization: `Bearer ${this.getToken()}` }});
 
     const request = base.pipe(
@@ -128,15 +128,15 @@ export class AuthenticationService {
 
   public setTaskDescription(task: Task): Observable<any> {
       var taskDetail: TaskDetails;
-      taskDetail._id = task.id;
+      taskDetail._id = task._id;
       taskDetail.assignedTo = task.assignedTo;
-      taskDetail description = task.description;
-      taskDetail status = task.status;
-      taskDetail reviewedBy = task.reviewedBy;
-      taskDetail dueDate = task.dueDate;
-      taskDetail rating = task.rating;
+      taskDetail.description = task.description;
+      taskDetail.status = task.status;
+      taskDetail.reviewedBy = task.reviewedBy;
+      taskDetail.dueDate = new Date(task.dueDate);
+      taskDetail.rating = task.rating;
 
-      return this.request('put', 'tasks', taskDetail);
+      return this.putRequest('put', 'tasks', taskDetail);
   }
 
   public logout(): void {
