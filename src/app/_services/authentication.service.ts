@@ -98,7 +98,7 @@ export class AuthenticationService {
     let base;
 
     if (type === 'tasks') {
-        base = this.http.patch(`/api/${type}/${task._id}`, task);
+        base = this.http.patch(`/api/${type}/${task._id}`, task, { headers: { Authorization: `Bearer ${this.getToken()}` }});
     } else {
         // Some other type
     }

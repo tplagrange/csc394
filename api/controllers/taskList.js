@@ -17,11 +17,17 @@ module.exports.getTasks = function(req, res) {
 };
 
 module.exports.patchDescription = function(req, res) {
-    var taskToUpdate = Task
-                        .findById(req.body._id)
-                        .exec(function(err, task) {
-                            task.description = req.body.description
-                            task.save()
-                            res.status(200).json(task);
-                        });
+    if (!req.payload.exp) {
+      res.status(401).json({
+        "message" : "UnauthorizedError: private data"
+      });
+    } else {
+        var taskToUpdate = Task
+                .findById(req.body._id)
+                .exec(function(err, task) {
+                    task.description = req.body.description
+                    task.save()
+                    res.status(200).json(task);
+        });
+    }
 }
