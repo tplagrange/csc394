@@ -12,7 +12,10 @@ var ctrlTasks = require('../controllers/taskList');
 
 // profile
 router.get('/profile', auth, ctrlProfile.profileRead);
-router.get('/tasks', auth, ctrlTasks.getTasks)
+
+// tasks
+router.patch('/tasks/:_id', ctrlTasks.patchDescription);
+router.get('/tasks', auth, ctrlTasks.getTasks);
 
 // authentication
 router.post('/register', ctrlAuth.register);

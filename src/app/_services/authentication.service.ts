@@ -94,17 +94,18 @@ export class AuthenticationService {
     return request;
   }
 
-  private putRequest(method: 'put', type: 'tasks', task: TaskDetails): Observable<any> {
-    let base = this.http.get(`/api/${type}/${task._id}`, { headers: { Authorization: `Bearer ${this.getToken()}` }});
+  private updateRequest(method: 'patch' | 'put', type: 'tasks', task: TaskDetails): Observable<any> {
+    let base;
 
-    const request = base.pipe(
-      map((data: TokenResponse) => {
-        if (data.token) {
-          this.saveToken(data.token);
-        }
-        return data;
-      })
-    );
+    if (type === 'tasks') {
+        base = this.http.patch(`/api/${type}/${task._id}`, task);
+    } else {
+        // Some other type
+    }
+
+    const request = base.pipe();
+
+    console.log(request);
 
     return request;
   }
@@ -127,16 +128,18 @@ export class AuthenticationService {
   }
 
   public setTaskDescription(task: Task): Observable<any> {
-      var taskDetail: TaskDetails;
-      taskDetail._id = task._id;
-      taskDetail.assignedTo = task.assignedTo;
-      taskDetail.description = task.description;
-      taskDetail.status = task.status;
-      taskDetail.reviewedBy = task.reviewedBy;
-      taskDetail.dueDate = new Date(task.dueDate);
-      taskDetail.rating = task.rating;
+      console.log("Auth will try to set task description");
+      var taskDetail = {
+          '_id': task._id,
+          'assignedTo': task.assignedTo,
+          'description': task.description,
+          'status': task.status,
+          'reviewedBy': task.reviewedBy,
+          'dueDate': new Date(task.dueDate),
+          'rating': task.rating
+      }
 
-      return this.putRequest('put', 'tasks', taskDetail);
+      return this.updateRequest('patch', 'tasks', taskDetail);
   }
 
   public logout(): void {
@@ -144,4 +147,30 @@ export class AuthenticationService {
     window.localStorage.removeItem('mean-token');
     this.router.navigateByUrl('/');
   }
+
+  // Example HTTP Error logging from official Angular site
+  // /**
+  //  * Handle Http operation that failed.
+  //  * Let the app continue.
+  //  * @param operation - name of the operation that failed
+  //  * @param result - optional value to return as the observable result
+  //  */
+  // private handleError<T> (operation = 'operation', result?: T) {
+  //   return (error: any): Observable<T> => {
+  //
+  //     // TODO: send the error to remote logging infrastructure
+  //     console.error(error); // log to console instead
+  //
+  //     // TODO: better job of transforming error for user consumption
+  //     this.log(`${operation} failed: ${error.message}`);
+  //
+  //     // Let the app keep running by returning an empty result.
+  //     return of(result as T);
+  //   };
+  // }
+  //
+  // /** Log a AuthenticationService message with the MessageService */
+  // private log(message: string) {
+  //   console.log(message);
+  // }
 }

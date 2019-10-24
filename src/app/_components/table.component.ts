@@ -21,7 +21,7 @@ export class TableComponent {
 
     // UI Variables
     selectedTask: Task;
-    currentDescription: String;
+    currentDescription: string;
 
     // Flags that control the expansion panel
     f_firstPanel = false;
@@ -65,7 +65,7 @@ export class TableComponent {
         this.f_firstPanel = true;
         this.f_secondPanel = false;
         const index = this.findIndexofTask();
-        this.dsTasks[index] = this.selectedTask;
+        this.tasks[index] = this.selectedTask;
         this.updateTableTasks();
         this.selectedTask = null;
     }
@@ -83,6 +83,11 @@ export class TableComponent {
     }
 
     setDescription() {
-        console.log("Setting description");
+        this.selectedTask.description = this.currentDescription;
+        this.auth.setTaskDescription(this.selectedTask).subscribe(updatedTask => {
+            console.log("Updated task to " + JSON.stringify(updatedTask));
+        }, (err) => {
+            console.error(err);
+        });
     }
 }
