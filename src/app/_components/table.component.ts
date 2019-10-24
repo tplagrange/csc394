@@ -17,10 +17,11 @@ export class TableComponent {
 
     // DataSource and Column names for table
     dsTasks: MatTableDataSource<Task>;
-    dcTasks: string[] = ["assignedTo", "description", "status", "reviewedBy", "dueDate", "rating"];
+    dcTasks: string[] = ["assignedTo", "description", "status", "reviewedBy", "dueDate", "rating", "edit"];
 
     // UI Variables
     selectedTask: Task;
+    currentDescription: string;
 
     // Flags that control the expansion panel
     f_firstPanel = false;
@@ -49,6 +50,7 @@ export class TableComponent {
     editTask(task: Task) {
         // this.selectedTask = trainer;
         this.selectedTask = JSON.parse(JSON.stringify(task));
+        this.currentDescription = task.description;
         this.f_firstPanel = false;
         this.f_secondPanel = true;
     }
@@ -63,7 +65,7 @@ export class TableComponent {
         this.f_firstPanel = true;
         this.f_secondPanel = false;
         const index = this.findIndexofTask();
-        this.dsTasks[index] = this.selectedTask;
+        this.tasks[index] = this.selectedTask;
         this.updateTableTasks();
         this.selectedTask = null;
     }
@@ -76,7 +78,16 @@ export class TableComponent {
 
     updateTableTasks() {
         this.dsTasks.data = this.tasks;
-        console.log(this.dsTasks);
-        console.log(this.dsTasks.data);
+        //console.log(this.dsTasks);
+        //console.log(this.dsTasks.data);
+    }
+
+    setDescription() {
+        this.selectedTask.description = this.currentDescription;
+        this.auth.setTaskDescription(this.selectedTask).subscribe(updatedTask => {
+            console.log("Updated task to " + JSON.stringify(updatedTask));
+        }, (err) => {
+            console.error(err);
+        });
     }
 }
