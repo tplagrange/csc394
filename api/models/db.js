@@ -6,7 +6,15 @@ if (process.env.NODE_ENV === 'production') {
   dbURI = process.env.MONGODB_URI;
 }
 
-mongoose.connect(dbURI);
+// Remove deprecation warnings
+mongoose.set( 'useCreateIndex', true );
+mongoose.set( 'useFindAndModify', false );
+mongoose.set( 'useUnifiedTopology', true );
+
+// Connect to the database
+mongoose.connect(dbURI, { useNewUrlParser: true });
+
+// Enable autoincrement for _id
 autoIncrement.initialize(mongoose.connection)
 
 // CONNECTION EVENTS
