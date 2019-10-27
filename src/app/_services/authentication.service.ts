@@ -4,12 +4,24 @@ import { Observable } from 'rxjs/Observable';
 import { map } from 'rxjs/operators/map';
 import { Router } from '@angular/router';
 
+import { Task } from '../_classes'
+
 export interface UserDetails {
-  _id: string;
+  _id: number;
   email: string;
   name: string;
   exp: number;
   iat: number;
+}
+
+export interface TaskDetails {
+  _id: number;
+  assignedTo: number;
+  description: string;
+  status: string;
+  reviewedBy: number;
+  dueDate: Date;
+  rating: string;
 }
 
 interface TokenResponse {
@@ -61,7 +73,7 @@ export class AuthenticationService {
     }
   }
 
-  private request(method: 'post'|'get', type: 'login'|'register'|'profile', user?: TokenPayload): Observable<any> {
+  private request(method: 'post' | 'get', type: 'login'|'register'|'profile'|'tasks', user?: TokenPayload): Observable<any> {
     let base;
 
     if (method === 'post') {
@@ -82,6 +94,22 @@ export class AuthenticationService {
     return request;
   }
 
+  private updateRequest(method: 'patch' | 'put', type: 'tasks', task: TaskDetails): Observable<any> {
+    let base;
+
+    if (type === 'tasks') {
+        base = this.http.patch(`/api/${type}/${task._id}`, task, { headers: { Authorization: `Bearer ${this.getToken()}` }});
+    } else {
+        // Some other type
+    }
+
+    const request = base.pipe();
+
+    console.log(request);
+
+    return request;
+  }
+
   public register(user: TokenPayload): Observable<any> {
     return this.request('post', 'register', user);
   }
@@ -94,9 +122,55 @@ export class AuthenticationService {
     return this.request('get', 'profile');
   }
 
+  // Task Operations
+  public tasks(): Observable<any> {
+    return this.request('get', 'tasks');
+  }
+
+  public setTaskDescription(task: Task): Observable<any> {
+      console.log("Auth will try to set task description");
+      var taskDetail = {
+          '_id': task._id,
+          'assignedTo': task.assignedTo,
+          'description': task.description,
+          'status': task.status,
+          'reviewedBy': task.reviewedBy,
+          'dueDate': new Date(task.dueDate),
+          'rating': task.rating
+      }
+
+      return this.updateRequest('patch', 'tasks', taskDetail);
+  }
+
   public logout(): void {
     this.token = '';
     window.localStorage.removeItem('mean-token');
     this.router.navigateByUrl('/');
   }
+
+  // Example HTTP Error logging from official Angular site
+  // /**
+  //  * Handle Http operation that failed.
+  //  * Let the app continue.
+  //  * @param operation - name of the operation that failed
+  //  * @param result - optional value to return as the observable result
+  //  */
+  // private handleError<T> (operation = 'operation', result?: T) {
+  //   return (error: any): Observable<T> => {
+  //
+  //     // TODO: send the error to remote logging infrastructure
+  //     console.error(error); // log to console instead
+  //
+  //     // TODO: better job of transforming error for user consumption
+  //     this.log(`${operation} failed: ${error.message}`);
+  //
+  //     // Let the app keep running by returning an empty result.
+  //     return of(result as T);
+  //   };
+  // }
+  //
+  // /** Log a AuthenticationService message with the MessageService */
+  // private log(message: string) {
+  //   console.log(message);
+  // }
 }

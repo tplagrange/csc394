@@ -8,5 +8,5 @@ import { AuthenticationService } from './_services';
 })
 export class AppComponent {
 	constructor(public auth: AuthenticationService) {};
-  title = 'csc394';
+    title = 'csc394';
 }
