@@ -6,14 +6,14 @@ var taskSchema = new mongoose.Schema({
   assignedTo: {
       type: Schema.Types.ObjectId,
       ref: 'User',
-      autopopulate: true
+      autopopulate: { select: 'name' }
   },
   description: String,
   status: String,
   reviewedBy: {
       type: Schema.Types.ObjectId,
       ref: 'User',
-      autopopulate: true
+      autopopulate: { select: 'name' }
   },
   dueDate: Date,
   rating: String
