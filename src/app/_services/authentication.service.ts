@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { map } from 'rxjs/operators/map';
 import { Router } from '@angular/router';
 
-import { Task } from '../_classes'
+import { Task, User } from '../_classes'
 
 export interface UserDetails {
   _id: number;
@@ -16,10 +16,10 @@ export interface UserDetails {
 
 export interface TaskDetails {
   _id: number;
-  assignedTo: number;
+  assignedTo: User;
   description: string;
   status: string;
-  reviewedBy: number;
+  reviewedBy: User;
   dueDate: Date;
   rating: string;
 }

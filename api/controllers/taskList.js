@@ -8,9 +8,8 @@ module.exports.getTasks = function(req, res) {
       });
     } else {
       Task
-        .find({}).lean()
+        .find({})
         .exec(function(err, task) {
-          // console.log(user)
           res.status(200).json(task);
         });
     }
