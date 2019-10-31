@@ -94,6 +94,18 @@ export class AuthenticationService {
     return request;
   }
 
+  private requestMetrics(type: 'users', id: number): Observable<any> {
+      let base;
+
+      base = this.http.get(`/api/metrics/${type}/${id}`, { headers: { Authorization: `Bearer ${this.getToken()}`}});
+
+      const request = base.pipe();
+
+      console.log(request);
+
+      return request;
+  }
+
   private updateRequest(method: 'patch' | 'put', type: 'tasks', task: TaskDetails): Observable<any> {
     let base;
 
@@ -140,6 +152,10 @@ export class AuthenticationService {
       }
 
       return this.updateRequest('patch', 'tasks', taskDetail);
+  }
+
+  public getUserMetrics(id: number): Observable<any> {
+      return this.requestMetrics('users', id);
   }
 
   public logout(): void {

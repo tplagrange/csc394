@@ -13,6 +13,11 @@ var userSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  metrics: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'UserMetrics',
+      autopopulate: true
+  },
   hash: String,
   salt: String
 });
