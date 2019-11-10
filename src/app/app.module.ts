@@ -5,8 +5,24 @@ import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
+<<<<<<< Updated upstream
 
 import { AppComponent } from './app.component';
+=======
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ChartsModule } from 'ng2-charts'
+// Material
+import { MatSortModule } from '@angular/material/sort';
+import { MatInputModule } from '@angular/material/input';
+import { MatTableModule } from '@angular/material';
+import { MatPaginatorModule } from '@angular/material/paginator'
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatSelectModule } from '@angular/material/select';
+>>>>>>> Stashed changes
+
 
 // Components
 import { AlertComponent } from './_components';
@@ -16,7 +32,7 @@ import { RegisterComponent } from './_components';
 import { HomeComponent } from './_components';
 import { TableRowComponent } from './_components';
 import { TableComponent } from './_components';
-
+import { MyLineChartComponent } from './_components';
 
 // Services
 import { AuthenticationService } from './_services';
@@ -38,15 +54,22 @@ const routes: Routes = [
     LoginComponent,
     RegisterComponent,
     HomeComponent,
+<<<<<<< Updated upstream
     TableRowComponent,
     TableComponent
+=======
+    //TableRowComponent,
+        TableComponent,
+    MyLineChartComponent
+>>>>>>> Stashed changes
   ],
   imports: [
     BrowserModule,
     HttpModule,
     FormsModule,
     HttpClientModule,
-    RouterModule.forRoot(routes),
+     RouterModule.forRoot(routes),
+    ChartsModule
   ],
   providers: [
     AlertService,
