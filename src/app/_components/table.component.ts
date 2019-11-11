@@ -1,58 +1,94 @@
 import { Component, OnInit } from '@angular/core';
+import { MatTableDataSource, MatIconRegistry  } from '@angular/material';
+import { DomSanitizer } from '@angular/platform-browser';
 import { AuthenticationService, TaskDetails } from '../_services';
+import { Task, User } from '../_classes';
 
 @Component({
   selector: 'app-table',
-  templateUrl: './table.component.html'
+  templateUrl: './table.component.html',
+  styleUrls: ['./table.component.css']
 })
 
 export class TableComponent {
 
-    columns: string[];
-    tasks: TaskDetails[]
+    // API Returned Variables
+    tasks: Task[]
 
-    constructor(private auth: AuthenticationService) {}
+    // DataSource and Column names for table
+    dsTasks: MatTableDataSource<Task>;
+    dcTasks: string[] = ["assignedTo", "description", "status", "reviewedBy", "dueDate", "rating", "edit"];
 
-    ngOnInit() {
-        this.columns = this.auth.columns()
-        this.tasks = new Array(0);
-        this.auth.tasks().subscribe(taskArray => {
-            // console.log("Returning tasks")
-            // console.log(taskArray)
-          this.tasks = taskArray;
-        }, (err) => {
-          console.error(err);
-        });
+    // UI Variables
+    selectedTask: Task;
+    currentDescription: string;
+
+    // Flags that control the expansion panel
+    f_firstPanel = false;
+    f_secondPanel = false;
+
+    constructor(private auth: AuthenticationService) {
+        this.dsTasks = new MatTableDataSource<Task>();
+        this.tasks = new Array();
     }
 
-    //finishEdit() {
-    //    this.f_firstPanel = true;
-    //    this.f_secondPanel = false;
-    //    const index = this.findIndexofTask();
-    //    this.tasks[index] = this.selectedTask;
-    //    this.updateTableTasks();
-    //    this.selectedTask = null;
-    //}
+    ngOnInit() {
+        this.auth.tasks().subscribe(taskArray => {
+            // console.log("Returning tasks")
+            for (let taskItem of taskArray) {
+                this.tasks.push(new Task(taskItem));
+                console.log(taskItem);
+            }
+            this.updateTableTasks();
+        }, (err) => {
+            console.error(err);
+        });
 
-    //findIndexofTask(): number {
-    //  const index = this.tasks.
-    //    findIndex(t => t._id === this.selectedTask._id);
-    //  return index;
-    //}
+        this.f_firstPanel = true;
+        this.updateTableTasks();
+    }
 
-    //updateTableTasks() {
-    //    this.dsTasks.data = this.tasks;
-    //    //console.log(this.dsTasks);
-    //    //console.log(this.dsTasks.data);
-        
-    //}
+    editTask(task: Task) {
+        // this.selectedTask = trainer;
+        this.selectedTask = JSON.parse(JSON.stringify(task));
+        this.currentDescription = task.description;
+        this.f_firstPanel = false;
+        this.f_secondPanel = true;
+    }
 
-    //setDescription() {
-    //    this.selectedTask.description = this.currentDescription;
-    //    this.auth.setTaskDescription(this.selectedTask).subscribe(updatedTask => {
-    //        console.log("Updated task to " + JSON.stringify(updatedTask));
-    //    }, (err) => {
-    //        console.error(err);
-    //    });
+    cancelEdit() {
+        this.f_firstPanel = true;
+        this.f_secondPanel = false;
+        this.selectedTask = null;
+    }
+
+    finishEdit() {
+        this.f_firstPanel = true;
+        this.f_secondPanel = false;
+        const index = this.findIndexofTask();
+        this.tasks[index] = this.selectedTask;
+        this.updateTableTasks();
+        this.selectedTask = null;
+    }
+
+    findIndexofTask(): number {
+      const index = this.tasks.
+        findIndex(t => t._id === this.selectedTask._id);
+      return index;
+    }
+
+    updateTableTasks() {
+        this.dsTasks.data = this.tasks;
+        //console.log(this.dsTasks);
+        //console.log(this.dsTasks.data);
+    }
+
+    setDescription() {
+        this.selectedTask.description = this.currentDescription;
+        this.auth.setTaskDescription(this.selectedTask).subscribe(updatedTask => {
+            console.log("Updated task to " + JSON.stringify(updatedTask));
+        }, (err) => {
+            console.error(err);
+        });
     }
 }

@@ -1,22 +1,25 @@
-var mongoose = require('mongoose'),
-    autoIncrement = require('mongoose-auto-increment');
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
 // This is the mongoDB schema for the 'Task' model
 var taskSchema = new mongoose.Schema({
   assignedTo: {
-      type: Number, ref: 'User'
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+      autopopulate: { select: 'name' }
   },
   description: String,
   status: String,
   reviewedBy: {
-      type: Number, ref: 'User'
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+      autopopulate: { select: 'name' }
   },
   dueDate: Date,
   rating: String
 });
 
-// Add the mongoose-auto-increment plugin to this schema
-taskSchema.plugin(autoIncrement.plugin, 'Task')
+taskSchema.plugin(require('mongoose-autopopulate'));
 
 taskSchema.methods.setAssignment = function(userID) {
     this.assignedTo = userID
