@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { AuthenticationService } from './_services';
+import { ChartsModule } from 'ng2-charts';
+import { NgChartjsModule } from 'ng-chartjs';
 
 @Component({
   selector: 'app-root',
