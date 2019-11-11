@@ -5,10 +5,8 @@ import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
-<<<<<<< Updated upstream
 
 import { AppComponent } from './app.component';
-=======
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ChartsModule } from 'ng2-charts'
 // Material
@@ -21,7 +19,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatSelectModule } from '@angular/material/select';
->>>>>>> Stashed changes
 
 
 // Components
@@ -54,14 +51,11 @@ const routes: Routes = [
     LoginComponent,
     RegisterComponent,
     HomeComponent,
-<<<<<<< Updated upstream
     TableRowComponent,
     TableComponent
-=======
     //TableRowComponent,
         TableComponent,
     MyLineChartComponent
->>>>>>> Stashed changes
   ],
   imports: [
     BrowserModule,
