@@ -1,7 +1,8 @@
-<div style="text-align: center">
-    <div style="width: 600px; margin-top:20px">
+<div id="graphs" >
+    <div id="bar" >
         <div style="position: relative; width: 600px;">
-            <canvas baseChart 
+            <div>Group Tasks</div>
+            <canvas id="bar-graph" baseChart
                     [datasets]="lineChartData"
                     [labels]="lineChartLabels"
                     [options]="lineChartOptions"
@@ -9,5 +10,16 @@
                     [chartType]="lineChartType">
             </canvas>
         </div>
+    </div>
+    <div id="pie" >
+        <div>Your Tasks</div>
+        <canvas baseChart id="pie-chart"
+                [data]="pieChartData"
+                [labels]="pieChartLabels"
+                [colors]="pieColors"
+                [chartType]="pieChartType"
+                (chartHover)="chartHovered($event)"
+                (chartClick)="chartClicked($event)">
+        </canvas>
     </div>
 </div>

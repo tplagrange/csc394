@@ -3,4 +3,13 @@
     width: 100%;
     margin: auto;
     float: left;
+    max-height: 60%;
+    z-index: 100;
+}
+
+#metrics {
+    max-height: 35%;
+    margin-top: 5%;
+    z-index: 100;
+    display: inline-block;
 }

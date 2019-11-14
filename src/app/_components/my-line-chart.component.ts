@@ -16,7 +16,7 @@ import { NgChartjsModule, NgChartjsDirective } from 'ng-chartjs';
     styleUrls: ['./my-line-chart.component.css']
 })
 
-export class MyLineChartComponent implements OnInit{
+export class MyLineChartComponent implements OnInit {
 
     //@ViewChild('Chart', { static: false }) public Chart: BaseChartDirective;
     //public context: CanvasRenderingContext2D;
@@ -24,12 +24,14 @@ export class MyLineChartComponent implements OnInit{
     tasks: Task[];
 
 
+
     lineChartData: Array<any> = [
         {
-            label: 'My First dataset',
+            label: "Complete",
+            backgroundColor: "black",
             fill: false,
             lineTension: 0.1,
-            backgroundColor: 'rgba(75,192,192,0.4)',
+            //backgroundColor: 'rgba(75,192,192,0.4)',
             borderColor: 'rgba(75,192,192,1)',
             borderCapStyle: 'butt',
             borderDash: [],
@@ -44,10 +46,93 @@ export class MyLineChartComponent implements OnInit{
             pointHoverBorderWidth: 2,
             pointRadius: 1,
             pointHitRadius: 10,
-            data: [10,20,30,40],
+            data: [5, 3, 2]
+        },
+        {
+            label: "In-Progress",
+            backgroundColor: "lightslategray",
+            fill: false,
+            lineTension: 0.1,
+            //backgroundColor: 'rgba(75,192,192,0.4)',
+            borderColor: 'rgba(75,192,192,1)',
+            borderCapStyle: 'butt',
+            borderDash: [],
+            borderDashOffset: 0.0,
+            borderJoinStyle: 'miter',
+            pointBorderColor: 'rgba(75,192,192,1)',
+            pointBackgroundColor: '#fff',
+            pointBorderWidth: 1,
+            pointHoverRadius: 5,
+            pointHoverBackgroundColor: 'rgba(75,192,192,1)',
+            pointHoverBorderColor: 'rgba(220,220,220,1)',
+            pointHoverBorderWidth: 2,
+            pointRadius: 1,
+            pointHitRadius: 10,
+            data: [3, 1, 4]
+        },
+        {
+            label: "Blocked",
+            backgroundColor: "maroon",
+            fill: false,
+            lineTension: 0.1,
+            //backgroundColor: 'rgba(75,192,192,0.4)',
+            borderColor: 'rgba(75,192,192,1)',
+            borderCapStyle: 'butt',
+            borderDash: [],
+            borderDashOffset: 0.0,
+            borderJoinStyle: 'miter',
+            pointBorderColor: 'rgba(75,192,192,1)',
+            pointBackgroundColor: '#fff',
+            pointBorderWidth: 1,
+            pointHoverRadius: 5,
+            pointHoverBackgroundColor: 'rgba(75,192,192,1)',
+            pointHoverBorderColor: 'rgba(220,220,220,1)',
+            pointHoverBorderWidth: 2,
+            pointRadius: 1,
+            pointHitRadius: 10,
+            data: [2, 4, 4]
+        },
+        {
+            label: "In-Queue",
+            backgroundColor: "burlywood",
+            fill: false,
+            lineTension: 0.1,
+            //backgroundColor: 'rgba(75,192,192,0.4)',
+            borderColor: 'rgba(75,192,192,1)',
+            borderCapStyle: 'butt',
+            borderDash: [],
+            borderDashOffset: 0.0,
+            borderJoinStyle: 'miter',
+            pointBorderColor: 'rgba(75,192,192,1)',
+            pointBackgroundColor: '#fff',
+            pointBorderWidth: 1,
+            pointHoverRadius: 5,
+            pointHoverBackgroundColor: 'rgba(75,192,192,1)',
+            pointHoverBorderColor: 'rgba(220,220,220,1)',
+            pointHoverBorderWidth: 2,
+            pointRadius: 1,
+            pointHitRadius: 10,
+            data: [7, 2, 9]
         }
     ];
-    lineChartLabels: Array<any> = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
+             //this is a number[] and should be the number of tasks created, marked complete, and pending
+             //we can do this based on the overall course of the project
+              //[0]: complete \\ [1]: in progress  \\ [2]: blocked \\ [3]: in queue
+            //labels: ['Bill', 'Bob', 'Todd'],
+            
+
+    addData(thing: Task[]) {///Didn't have the time to test really, but I think you will want to go through the array of Tasks and for each task you will push parts of its data into the
+                            /// logical data location. EX: lineChartData[0] == complete tasks so you would push this.auth.Task.completed for [0] then task.in-progress to [1]
+        for (var x = 0; x < thing.length; x++) {
+            this.lineChartData[0]["data"].push(thing[x]._id);
+            this.lineChartData[1]
+            this.lineChartData[2]
+            this.lineChartData[3]
+            }
+    };
+
+
+    lineChartLabels: Array<any> = ['Bill', 'Bob', 'Todd']; //, 'Robert', 'Roger', 'Bobert', 'Phillipe'];
     lineChartOptions: any = {
         responsive: true,
         horizontalLine: [{
@@ -85,8 +170,56 @@ export class MyLineChartComponent implements OnInit{
         }
     };
 
+    public pieChartLabels: string[] = ['Complete', 'In-Progress', 'Blocked', 'In-Queue'];
+    public pieChartData: number[] = [5, 3, 2, 9]; //user-specific task data goes here
+    public pieChartType = 'pie';
 
+    pieColors = [
+        {
+            'backgroundColor': [
+                'black',
+                'lightslategray',
+                'maroon',
+                'burlywood'
+            ],
+            'borderColor': [
+                '#fff',
+                '#fff',
+                '#fff',
+            ],
+            'pointBackgroundColor': [
+                'black',
+                'lightslategray',
+                'maroon',
+                'burlywood'
+            ],
+            'pointBorderColor': [
+                '#fff',
+                '#fff',
+                '#fff'
+            ],
+            'pointHoverBackgroundColor': [
+                'black',
+                'lightslategray',
+                'maroon',
+                'burlywood'
+            ],
+            'pointHoverBorderColor': [
+                'black',
+                'lightslategray',
+                'maroon',
+                'burlywood'
+            ]
+        }
+    ];
 
+    public chartClicked(e: any): void {
+        console.log(e);
+    }
+
+    public chartHovered(e: any): void {
+        console.log(e);
+    }
 
     public lineChartLegend = true;
     public lineChartType = 'bar';
