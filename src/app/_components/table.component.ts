@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource, MatIconRegistry  } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { AuthenticationService, TaskDetails } from '../_services';
-import { Task } from '../_classes';
+import { Task, User } from '../_classes';
 
 @Component({
   selector: 'app-table',
@@ -17,7 +17,7 @@ export class TableComponent {
 
     // DataSource and Column names for table
     dsTasks: MatTableDataSource<Task>;
-    dcTasks: string[] = ["assignedTo", "description", "status", "reviewedBy", "dueDate", "rating", "edit"];
+    dcTasks: string[] = ["assignedTo", "description", "status", "edit"];
 
     // UI Variables
     selectedTask: Task;
@@ -37,6 +37,7 @@ export class TableComponent {
             // console.log("Returning tasks")
             for (let taskItem of taskArray) {
                 this.tasks.push(new Task(taskItem));
+                console.log(taskItem);
             }
             this.updateTableTasks();
         }, (err) => {
