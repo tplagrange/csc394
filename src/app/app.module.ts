@@ -5,12 +5,10 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ChartsModule } from 'ng2-charts';
-import { NgChartjsModule  } from 'ng-chartjs';
 
 // Charts
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ChartsModule } from 'ng2-charts'
+import { ChartsModule } from 'ng2-charts';
+import { NgChartjsModule } from 'ng-chartjs';
 
 // Material
 import { MatSortModule } from '@angular/material/sort';
@@ -25,7 +23,7 @@ import { MatSelectModule } from '@angular/material/select';
 
 // Components
 import { AppComponent } from './app.component';
-import { AlertComponent, MyLineChartComponent } from './_components';
+import { AlertComponent } from './_components';
 import { ProfileComponent } from './_components';
 import { LoginComponent } from './_components';
 import { RegisterComponent } from './_components';
@@ -84,7 +82,7 @@ const routes: Routes = [
     AlertService,
     AuthenticationService,
       AuthGuardService
-    
+
   ],
   bootstrap: [AppComponent]
 })
