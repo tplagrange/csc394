@@ -1,11 +1,11 @@
 import { Component, OnInit,ElementRef, ViewChild, AfterContentInit, AfterViewInit, APP_ID } from '@angular/core';
 import { ChartDataSets, ChartOptions, ChartType, ChartData } from 'chart.js';
-import { ChartsModule } from 'ng2-charts';
+import { ChartsModule, BaseChartDirective } from 'ng2-charts';
 import { MatTableDataSource, MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { AuthenticationService, TaskDetails } from '../_services';
 import { Task } from '../_classes';
-import { NgChartjsModule } from 'ng-chartjs';
+import { NgChartjsModule, NgChartjsDirective } from 'ng-chartjs';
 
 //import { Chart } from 'chart.js';
 
@@ -18,9 +18,9 @@ import { NgChartjsModule } from 'ng-chartjs';
 
 export class MyLineChartComponent implements OnInit{
 
-    //@ViewChild('MyCanvas', {static:false}) MyCanvas: any;
+    //@ViewChild('Chart', { static: false }) public Chart: BaseChartDirective;
     //public context: CanvasRenderingContext2D;
-
+    graphTasks: number[];
     tasks: Task[];
 
 
@@ -44,8 +44,8 @@ export class MyLineChartComponent implements OnInit{
             pointHoverBorderWidth: 2,
             pointRadius: 1,
             pointHitRadius: 10,
-            data: [65, 59, 80, 81, 56, 55, 40],
-        },
+            data: [10,20,30,40],
+        }
     ];
     lineChartLabels: Array<any> = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
     lineChartOptions: any = {
@@ -84,15 +84,40 @@ export class MyLineChartComponent implements OnInit{
             ]
         }
     };
+
+
+
+
     public lineChartLegend = true;
     public lineChartType = 'bar';
+    dsTasks: MatTableDataSource<Task>;
     //dsTasks: any;
 
-    constructor() {}
 
-    ngOnInit() {
+    constructor(private auth: AuthenticationService) {
+        this.dsTasks = new MatTableDataSource<Task>();
+        this.tasks = new Array();
     }
 
+
+    ngOnInit() {
+        this.auth.tasks().subscribe(taskArray => {
+            // console.log("Returning tasks")
+            for (let taskItem of taskArray) {
+                this.tasks.push(new Task(taskItem));
+            }
+            this.updateGraphTasks();
+        }, (err) => {
+            console.error(err);
+        });
+    }
+    updateGraphTasks() {
+        //console.log(this.lineChartData[0].indexOf("data"));
+        //this.lineChartLabels = [...this.lineChartLabels];
+        //this.lineChartData[16] = this.tasks.map(x => x._id).slice(0,4);
+        //console.log(this.lineChartData["data"].map((x: any) => x));
+        //console.log(this.tasks.map(x => x._id));
+    }
 }
 
 
