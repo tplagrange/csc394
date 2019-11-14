@@ -5,6 +5,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ChartsModule } from 'ng2-charts';
+import { NgChartjsModule  } from 'ng-chartjs';
 
 // Charts
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -23,7 +25,7 @@ import { MatSelectModule } from '@angular/material/select';
 
 // Components
 import { AppComponent } from './app.component';
-import { AlertComponent } from './_components';
+import { AlertComponent, MyLineChartComponent } from './_components';
 import { ProfileComponent } from './_components';
 import { LoginComponent } from './_components';
 import { RegisterComponent } from './_components';
@@ -36,6 +38,7 @@ import { MyLineChartComponent } from './_components';
 import { AuthenticationService } from './_services';
 import { AuthGuardService } from './_services';
 import { AlertService } from './_services';
+import { from } from 'rxjs';
 
 const routes: Routes = [
   { path: '', component: HomeComponent, canActivate:[AuthGuardService]},
@@ -72,12 +75,16 @@ const routes: Routes = [
     MatSelectModule,
     FormsModule,
     HttpClientModule,
-    RouterModule.forRoot(routes),
+      RouterModule.forRoot(routes),
+      ChartsModule,
+      NgChartjsModule
+
   ],
   providers: [
     AlertService,
     AuthenticationService,
-    AuthGuardService
+      AuthGuardService
+    
   ],
   bootstrap: [AppComponent]
 })

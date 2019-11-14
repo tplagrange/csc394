@@ -1,5 +1,13 @@
-<div #chart>
-  <canvas #canvas id="canvas">
-      {{Chart}}
-  </canvas>
+<div style="text-align: center">
+    <div style="width: 600px; margin-top:20px">
+        <div style="position: relative; width: 600px;">
+            <canvas baseChart 
+                    [datasets]="lineChartData"
+                    [labels]="lineChartLabels"
+                    [options]="lineChartOptions"
+                    [legend]="lineChartLegend"
+                    [chartType]="lineChartType">
+            </canvas>
+        </div>
+    </div>
 </div>
