@@ -101,15 +101,15 @@ export class MyLineChartComponent implements OnInit{
 
 
     ngOnInit() {
-        this.auth.tasks().subscribe(taskArray => {
-            // console.log("Returning tasks")
-            for (let taskItem of taskArray) {
-                this.tasks.push(new Task(taskItem));
-            }
-            this.updateGraphTasks();
-        }, (err) => {
-            console.error(err);
-        });
+        //this.auth.tasks().subscribe(taskArray => {
+        //    // console.log("Returning tasks")
+        //    for (let taskItem of taskArray) {
+        //        this.tasks.push(new Task(taskItem));
+        //    }
+        //    this.updateGraphTasks();
+        //}, (err) => {
+        //    console.error(err);
+        //});
     }
     updateGraphTasks() {
         //console.log(this.lineChartData[0].indexOf("data"));
