@@ -6,7 +6,7 @@
 		<table mat-table [dataSource]="dsTasks" class="mat-elevation-z8">
 			<ng-container matColumnDef="assignedTo">
 				<th mat-header-cell *matHeaderCellDef> Assignment </th>
-				<td mat-cell *matCellDef="let task"> {{task.assignedTo}} </td>
+				<td mat-cell *matCellDef="let task"> {{task.assignedTo.name}} </td>
 			</ng-container>
 			<ng-container matColumnDef="description">
 				<th mat-header-cell *matHeaderCellDef> Description </th>

@@ -8,7 +8,12 @@ var auth = jwt({
 
 var ctrlProfile = require('../controllers/profile');
 var ctrlAuth = require('../controllers/authentication');
-var ctrlTasks = require('../controllers/taskList');
+var ctrlTasks = require('../controllers/task');
+var ctrlMetrics = require('../controllers/metric');
+
+// authentication
+router.post('/register', ctrlAuth.register);
+router.post('/login', ctrlAuth.login);
 
 // profile
 router.get('/profile', auth, ctrlProfile.profileRead);
@@ -17,8 +22,7 @@ router.get('/profile', auth, ctrlProfile.profileRead);
 router.patch('/tasks/:_id', auth, ctrlTasks.patchDescription);
 router.get('/tasks', auth, ctrlTasks.getTasks);
 
-// authentication
-router.post('/register', ctrlAuth.register);
-router.post('/login', ctrlAuth.login);
+// metrics
+router.get('/metrics/user/:_id', auth, ctrlMetrics.getUserMetrics);
 
 module.exports = router;
