@@ -1,0 +1,16 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\api",
+    "\\api\\models",
+    "\\api\\routes",
+    "\\e2e",
+    "\\e2e\\src",
+    "\\src",
+    "\\src\\app",
+    "\\src\\app\\_classes",
+    "\\src\\app\\_components"
+  ],
+  "SelectedNode": "\\src\\app\\_components\\table.component.ts",
+  "PreviewInSolutionExplorer": false
+}

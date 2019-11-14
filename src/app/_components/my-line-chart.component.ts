@@ -1,14 +1,11 @@
 import { Component, OnInit,ElementRef, ViewChild, AfterContentInit, AfterViewInit, APP_ID } from '@angular/core';
-import { ChartDataSets, ChartOptions, ChartType, ChartData } from 'chart.js';
+import { Chart, ChartDataSets, ChartOptions, ChartType, ChartData } from 'chart.js';
 import { ChartsModule, BaseChartDirective } from 'ng2-charts';
 import { MatTableDataSource, MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { AuthenticationService, TaskDetails } from '../_services';
 import { Task } from '../_classes';
 import { NgChartjsModule, NgChartjsDirective } from 'ng-chartjs';
-
-//import { Chart } from 'chart.js';
-
 
 @Component({
     selector: 'app-my-line-chart',
@@ -93,32 +90,65 @@ export class MyLineChartComponent implements OnInit{
     dsTasks: MatTableDataSource<Task>;
     //dsTasks: any;
 
-
     constructor(private auth: AuthenticationService) {
         this.dsTasks = new MatTableDataSource<Task>();
         this.tasks = new Array();
     }
+    //private auth: AuthenticationService;
+   //tasks:JSON
+    //chart:any;
+    dsTasks: MatTableDataSource<Task>;
+    //chart = Chart;
+    labels: [];
+    //constructor() { }
+    tasks: Task[];
+    graphData: number[];
 
-
+   //JSON.parse(JSON.stringify(this.tasks))
+    
     ngOnInit() {
-        //this.auth.tasks().subscribe(taskArray => {
-        //    // console.log("Returning tasks")
-        //    for (let taskItem of taskArray) {
-        //        this.tasks.push(new Task(taskItem));
-        //    }
-        //    this.updateGraphTasks();
-        //}, (err) => {
-        //    console.error(err);
-        //});
+        this.auth.tasks().subscribe(taskArray => {
+            // console.log("Returning tasks")
+            for (let taskItem of taskArray) {
+                this.tasks.push(new Task(taskItem));
+                
+            }
+            this.updateGraphTasks();
+        }, (err) => {
+            console.error(err);
+        });
+    }
+    ngAfterViewInit() {
+        //var ctx = document.getElementById("#chart").
+        this.context = (<HTMLCanvasElement>this.canvas.nativeElement).getContext('2d');
+        //  .getContext("2d");
+        this.chart = new Chart(this.canvas.nativeElement,
+            {
+                type: 'line',
+                data: {
+                    labels: this.labels,
+                    datasets: [
+                        {
+                            label: "tasks",
+                            data: this.tasks.map(x => x._id),
+                            borderColor: '#3cba9f',
+                            fill: false
+                        }
+                    ]
+                }
+            }
+
+        );
+        console.log(this.graphData);
+        console.log(this.tasks);
     }
     updateGraphTasks() {
-        //console.log(this.lineChartData[0].indexOf("data"));
-        //this.lineChartLabels = [...this.lineChartLabels];
-        //this.lineChartData[16] = this.tasks.map(x => x._id).slice(0,4);
-        //console.log(this.lineChartData["data"].map((x: any) => x));
-        //console.log(this.tasks.map(x => x._id));
+        this.dsTasks.data = this.tasks;
+        
+        //this.graphData = this.dsTasks.data.entries();
+        
     }
 }
-
+}
 
     
