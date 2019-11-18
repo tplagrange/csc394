@@ -1,3 +1,4 @@
+<div class="table-container">
 <mat-accordion>
 	<mat-expansion-panel [expanded]='f_firstPanel' [disabled]='!f_firstPanel'>
 		<mat-expansion-panel-header>
@@ -38,6 +39,11 @@
 	<tr mat-header-row *matHeaderRowDef="dcTasks"></tr>
 	<tr mat-row *matRowDef="let row; columns: dcTasks;"></tr>
     </table>
+    <mat-paginator #paginator
+             [pageSize]="10"
+             [pageSizeOptions]="[5, 10, 20]"
+             [showFirstLastButtons]="true">
+    </mat-paginator>
 	</mat-expansion-panel>
 
     <mat-expansion-panel [expanded]='f_secondPanel' [disabled]='!f_secondPanel'>
@@ -53,7 +59,7 @@
         </textarea>
     </mat-form-field>
 
- <button mat-raised-button (click)="setDescription()" style="margin: 10px">Set Description</button>
+<button mat-raised-button (click)="setDescription()" style="margin: 10px">Set Description</button>
 <br>
 <br>
 <div style="margin: auto">
@@ -62,3 +68,4 @@
 </div>
     </mat-expansion-panel>
 </mat-accordion>
+</div>

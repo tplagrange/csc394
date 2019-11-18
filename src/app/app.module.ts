@@ -5,6 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NbThemeModule, NbChatModule, NbLayoutModule } from '@nebular/theme';
 
 // Charts
 import { ChartsModule } from 'ng2-charts';
@@ -28,7 +29,7 @@ import { ProfileComponent } from './_components';
 import { LoginComponent } from './_components';
 import { RegisterComponent } from './_components';
 import { HomeComponent } from './_components';
-//import { TableRowComponent } from './_components';
+import { ChatComponent } from './_components';
 import { TableComponent } from './_components';
 import { MyLineChartComponent } from './_components';
 
@@ -49,13 +50,13 @@ const routes: Routes = [
   declarations: [
     AppComponent,
     AlertComponent,
+    ChatComponent,
     ProfileComponent,
     LoginComponent,
     RegisterComponent,
     HomeComponent,
-    //TableRowComponent,
     TableComponent,
-    MyLineChartComponent
+    MyLineChartComponent,
   ],
   imports: [
     BrowserModule,
@@ -73,16 +74,17 @@ const routes: Routes = [
     MatSelectModule,
     FormsModule,
     HttpClientModule,
-      RouterModule.forRoot(routes),
-      ChartsModule,
-      NgChartjsModule
-
+    RouterModule.forRoot(routes),
+    ChartsModule,
+    NgChartjsModule,
+    NbLayoutModule,
+    NbThemeModule.forRoot({ name: 'default' }),
+    NbChatModule,
   ],
   providers: [
     AlertService,
     AuthenticationService,
-      AuthGuardService
-
+    AuthGuardService,
   ],
   bootstrap: [AppComponent]
 })

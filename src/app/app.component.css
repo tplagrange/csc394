@@ -1,11 +1,11 @@
-@import '@angular/material/prebuilt-themes/deeppurple-amber.css';
 
-.bg { 
-  /* The image used as background */
-  background-image: url("../assets/images/background1.jpg");
+
+.bg {
+  /* background-image: url("../assets/images/background1.jpg");
   min-width: 100px;
   width: 100%;
   height: 100vh;
   background-size:cover;
-  background-position:center;
+  background-position:center; */
+  background-color: white
 }
