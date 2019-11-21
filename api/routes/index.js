@@ -11,6 +11,7 @@ var ctrlAuth = require('../controllers/authentication');
 var ctrlTasks = require('../controllers/task');
 var ctrlMetrics = require('../controllers/metric');
 var ctrlProjects = require('../controllers/project');
+var ctrlUsers = require('../controllers/user');
 
 // authentication
 router.post('/register', ctrlAuth.register);
@@ -20,13 +21,13 @@ router.post('/login', ctrlAuth.login);
 router.get('/profile', auth, ctrlProfile.profileRead);
 
 // projects
-router.post('/project', auth, ctrlProjects.postProject);
+router.post('/projects', auth, ctrlProjects.postProject);
 router.get('/projects/:userid', auth, ctrlProjects.getProjects);
-// router.get('/project/:id')
+router.patch('/users/:userid', auth, ctrlUsers.patchUser);
 
 // messages
-router.get('/project/:id/messages', auth, ctrlProjects.getMessages);
-router.patch('/project/:id/messages', auth, ctrlProjects.patchMessages);
+router.get('/projects/:id/messages', auth, ctrlProjects.getMessages);
+router.patch('/projects/:id/messages', auth, ctrlProjects.patchMessages);
 
 // tasks
 router.patch('/tasks/:_id', auth, ctrlTasks.patchDescription);

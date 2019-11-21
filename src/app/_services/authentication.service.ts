@@ -196,14 +196,20 @@ export class AuthenticationService {
   }
 
   public postProject(project: ProjectPackage): Observable<any> {
-      let base = this.http.post(`/api/project`, project, { headers: { Authorization: `Bearer ${this.getToken()}` }});
+      let base = this.http.post(`/api/projects`, project, { headers: { Authorization: `Bearer ${this.getToken()}` }});
+      const request = base.pipe()
+      return request;
+  }
+
+  public patchUser(project: any, userid: string): Observable<any> {
+      let base = this.http.patch(`/api/users/${userid}`, project, { headers: { Authorization: `Bearer ${this.getToken()}` }});
       const request = base.pipe()
       return request;
   }
 
   // Chat Operations
   public patchMessages(projectid: string, message: Message): Observable<any> {
-      let base = this.http.patch(`/api/project/${projectid}/messages`, message, { headers: { Authorization: `Bearer ${this.getToken()}` }});
+      let base = this.http.patch(`/api/projects/${projectid}/messages`, message, { headers: { Authorization: `Bearer ${this.getToken()}` }});
       const request = base.pipe();
       return request;
   }

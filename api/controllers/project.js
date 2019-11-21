@@ -11,37 +11,29 @@ module.exports.getProjects = function(req, res) {
       // Create placeholder return array (will store all projects)
       var projects = new Array();
       // Get the user with the id needed
-      User.findByID(req.params.id)
-            .exec(function(err, user) {
-                // Get the array of project IDs the user has access to
-                for (var id of user.projects) {
-                    var project = Project
-                            .findByID(id)
-                            .exec(function(err, proj) {
-                                // Add each to the return array
-                                projects.push(proj);
-                            });
-                }
-                res.status(200).json(projects);
-            });
+      var userToUpdate = User
+            .findById(req.params.userid)
+            .exec( function(err, user) {
+                res.status(200).json(user.projects);
+            })
+
   }
 };
 
-// For now, just a placeholder that creates a project from hardcoded vars
 module.exports.postProject = function(req, res) {
     if (!req.payload.exp) {
         res.status(401).json({
             "message" : "UnauthorizedError: private data"
       });
     } else {
-        console.log("Going to save");
         var proj = new Project();
+        proj._id = mongoose.Types.ObjectId();
         proj.name = req.body.proj.name;
         proj.taskIDs = new Array();
-        proj.createdBy =req.body.user;
-        proj.save(function (err, task) {
-                res.status(200).json(proj);
-                if (err) return console.error(err);
+        proj.createdBy = req.body.user;
+        proj.save(function (err, savedProject) {
+            res.status(200).json(savedProject);
+            if (err) return console.error(err);
         });
     }
 }

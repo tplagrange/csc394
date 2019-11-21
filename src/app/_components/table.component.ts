@@ -35,14 +35,13 @@ export class TableComponent {
     constructor(private auth: AuthenticationService) {
         this.dsTasks = new MatTableDataSource<Task>();
         this.tasks = new Array();
+        this.projectList = new Array();
     }
 
     ngOnInit() {
         // projectList needs to come from the api; this will be all the projects the user has access to
-        console.log(localStorage.getItem('user'));
-
         this.auth.projects(localStorage.getItem('user')).subscribe(projects => {
-            console.log("Projects loaded");
+            console.log("Projects: " + projects);
             for (let project of projects) {
                 console.log(projects);
                 this.projectList.push(new Project(project));
@@ -117,8 +116,6 @@ export class TableComponent {
     }
 
     createProject() {
-        console.log("Creating new project");
-
         // Dummy Variables for Now
         var project = new Project({
             _id: 'asdasd',
@@ -126,7 +123,12 @@ export class TableComponent {
         });
 
         this.auth.postProject(new ProjectPackage(project, localStorage.getItem('user'))).subscribe(proj => {
-
+            // Give the user access to the project
+            this.auth.patchUser(proj, localStorage.getItem('user')).subscribe(user => {
+                console.log("user updated");
+            }, (err) => {
+                console.error(err);
+            });
         }, (err) => {
             console.error(err);
         });

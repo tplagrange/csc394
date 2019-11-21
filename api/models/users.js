@@ -18,7 +18,11 @@ var userSchema = new mongoose.Schema({
       ref: 'UserMetrics',
       autopopulate: true
   },
-  projects: [String],
+  projects: [ {
+      type: mongoose.Schema.Types.ObjectID,
+      ref: 'Project',
+      autopopulate: true
+  }],
   hash: String,
   salt: String
 });
