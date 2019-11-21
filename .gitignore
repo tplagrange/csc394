@@ -32,6 +32,7 @@ speed-measure-plugin*.json
 .history/*
 !.vs/VSWorkspaceState.json
 !.vs/*
+.vs/
 
 # misc
 /.sass-cache
