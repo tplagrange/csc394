@@ -119,7 +119,7 @@ export class TableComponent {
         // Dummy Variables for Now
         var project = new Project({
             _id: 'asdasd',
-            name: 'My New Project'
+            name: 'Your New Project'
         });
 
         this.auth.postProject(new ProjectPackage(project, localStorage.getItem('user'))).subscribe(proj => {
@@ -134,9 +134,9 @@ export class TableComponent {
         });
     }
 
-    updateProjectSelection() {
-        console.log("You chose " + this.projectSelection.name);
-        this.currentProject = this.projectSelection;
+    updateSelection(selection: Project) {
+        console.log("You chose " + selection.name);
+        this.currentProject = selection;
     }
 
     setDescription() {
