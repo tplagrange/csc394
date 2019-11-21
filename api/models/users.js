@@ -49,4 +49,6 @@ userSchema.methods.generateJwt = function() {
   }, process.env.DB_SECRET); // Secret is only known by server - set one for your machine for local development
 };
 
+userSchema.plugin(require('mongoose-autopopulate'));
+
 mongoose.model('User', userSchema);
