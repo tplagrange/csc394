@@ -56,6 +56,7 @@ process.on('SIGTERM', function() {
 require('./users');
 require('./tasks');
 require('./userMetrics');
+require('./projects');
 
 // Create mock values
 var mocks = require('../mock/index');

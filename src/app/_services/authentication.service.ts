@@ -4,24 +4,63 @@ import { Observable } from 'rxjs/Observable';
 import { map } from 'rxjs/operators/map';
 import { Router } from '@angular/router';
 
-import { Task, User } from '../_classes'
+import { Project, Message, Task, User } from '../_classes'
 
 export interface UserDetails {
-  _id: number;
-  email: string;
-  name: string;
-  exp: number;
-  iat: number;
+    _id: number;
+    email: string;
+    name: string;
+    exp: number;
+    iat: number;
 }
 
 export interface TaskDetails {
-  _id: number;
-  assignedTo: User;
-  description: string;
-  status: string;
-  reviewedBy: User;
-  dueDate: Date;
-  rating: string;
+    _id: number;
+    assignedTo: User;
+    description: string;
+    status: string;
+    reviewedBy: User;
+    dueDate: Date;
+    rating: string;
+}
+
+export interface MessageDetails {
+    type: string;
+    text: string;
+    reply: string;
+    user: {
+    name: string;
+    avatar: string;
+    };
+    date: string;
+    files: string;
+    quote: string;
+    latitude: string;
+    longitude: string;
+    avatar: string;
+}
+
+export interface ProjectDetails {
+    _id: string;
+    name: string;
+    // tasksIDs: string[];
+    // createdBy: string;
+    // messages: MessageDetails[];
+    // metrics: {
+    //     tasksOpened: number,
+    //     tasksActive: number,
+    //     tasksClosed: number
+    // }
+}
+
+export class ProjectPackage {
+    proj: Project;
+    user: string;
+
+    constructor(project: Project, userID: string) {
+        this.proj = project;
+        this.user = userID;
+    }
 }
 
 interface TokenResponse {
@@ -98,11 +137,7 @@ export class AuthenticationService {
       let base;
 
       base = this.http.get(`/api/metrics/${type}/${id}`, { headers: { Authorization: `Bearer ${this.getToken()}`}});
-
       const request = base.pipe();
-
-      console.log(request);
-
       return request;
   }
 
@@ -140,7 +175,6 @@ export class AuthenticationService {
   }
 
   public setTaskDescription(task: Task): Observable<any> {
-      console.log("Auth will try to set task description");
       var taskDetail = {
           '_id': task._id,
           'assignedTo': task.assignedTo,
@@ -154,6 +188,33 @@ export class AuthenticationService {
       return this.updateRequest('patch', 'tasks', taskDetail);
   }
 
+  // Project Operations
+  public projects(userid: string):Observable<any> {
+      let base = this.http.get(`/api/projects/${userid}`, { headers: { Authorization: `Bearer ${this.getToken()}` }});
+      const request = base.pipe();
+      return request;
+  }
+
+  public postProject(project: ProjectPackage): Observable<any> {
+      let base = this.http.post(`/api/project`, project, { headers: { Authorization: `Bearer ${this.getToken()}` }});
+      const request = base.pipe()
+      return request;
+  }
+
+  // Chat Operations
+  public patchMessages(projectid: string, message: Message): Observable<any> {
+      let base = this.http.patch(`/api/project/${projectid}/messages`, message, { headers: { Authorization: `Bearer ${this.getToken()}` }});
+      const request = base.pipe();
+      return request;
+  }
+
+  public getMessages(projectid: string): Observable<any> {
+      let base = this.http.get(`/api/${projectid}/messages`, { headers: { Authorization: `Bearer ${this.getToken()}` }});
+      const request = base.pipe();
+      return request;
+  }
+
+  // User Metric Operations
   public getUserMetrics(id: number): Observable<any> {
       return this.requestMetrics('users', id);
   }

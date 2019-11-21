@@ -16,18 +16,18 @@ export class ChatComponent {
   }
 
   sendMessage(event: any) {
-
+    console.log(event)
     this.messages.push({
       text: event.message,
       date: new Date(),
       user: {
-        name: 'Thomas',
+        name: localStorage.getItem('user'),
       },
     });
-    // const botReply = this.chatShowcaseService.reply(event.message);
-    const botReply = false
-    if (botReply) {
-      setTimeout(() => { this.messages.push(botReply) }, 500);
-    }
+    this.auth.patchMessages(localStorage.getItem('project'), event.message).subscribe(res => {
+
+    }, (err) => {
+        console.error(err);
+    });
   }
 }

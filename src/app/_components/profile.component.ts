@@ -8,10 +8,11 @@ export class ProfileComponent {
   details: UserDetails;
 
   constructor(private auth: AuthenticationService) {}
-  
-  ngOnInit() {    
+
+  ngOnInit() {
     this.auth.profile().subscribe(user => {
       this.details = user;
+      localStorage.setItem('user', user._id);
     }, (err) => {
       console.error(err);
     });

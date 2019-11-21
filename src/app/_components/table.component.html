@@ -3,6 +3,13 @@
 	<mat-expansion-panel [expanded]='f_firstPanel' [disabled]='!f_firstPanel'>
 		<mat-expansion-panel-header>
 			<mat-panel-title>Tasks</mat-panel-title>
+            <mat-form-field>
+              <mat-select [placeholder]="currentProject.name" [(ngModel)]="projectSelection">
+                <mat-option (click)='createProject()'>Create New Project</mat-option>
+                <mat-option *ngFor="let project of projectList" [value]="projectSelection" (click)='updateSelection()'>{{project.name}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <button mat-raised-button (click)="addTask()" style="margin: 10px">Add Task</button>
 		</mat-expansion-panel-header>
 		<table mat-table [dataSource]="dsTasks" class="mat-elevation-z8">
 			<ng-container matColumnDef="assignedTo">

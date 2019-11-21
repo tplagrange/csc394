@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, MatTableDataSource, MatIconRegistry  } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
-import { AuthenticationService, TaskDetails } from '../_services';
-import { Task, User } from '../_classes';
+import { AuthenticationService, TaskDetails, ProjectDetails, ProjectPackage } from '../_services';
+import { Task, Project, User } from '../_classes';
 
 @Component({
   selector: 'app-table',
@@ -14,6 +14,11 @@ export class TableComponent {
 
     // API Returned Variables
     tasks: Task[]
+
+    // Keep track of the project
+    projectList: Project[];
+    currentProject: Project;
+    projectSelection: Project;
 
     // DataSource and Column names for table
     dsTasks: MatTableDataSource<Task>;
@@ -33,6 +38,26 @@ export class TableComponent {
     }
 
     ngOnInit() {
+        // projectList needs to come from the api; this will be all the projects the user has access to
+        console.log(localStorage.getItem('user'));
+
+        this.auth.projects(localStorage.getItem('user')).subscribe(projects => {
+            console.log("Projects loaded");
+            for (let project of projects) {
+                console.log(projects);
+                this.projectList.push(new Project(project));
+            }
+        });
+
+        if (true) {
+            console.log("Baking projects");
+            this.currentProject = {
+                _id: '0',
+                name: "No Project Selected"
+            };
+            this.projectSelection = this.currentProject;
+        }
+
         this.auth.tasks().subscribe(taskArray => {
             // console.log("Returning tasks")
             for (let taskItem of taskArray) {
@@ -54,6 +79,9 @@ export class TableComponent {
         this.dsTasks.paginator = this.paginator;
     }
 
+    addTask() {
+        console.log("Adding task");
+    }
     editTask(task: Task) {
         this.selectedTask = JSON.parse(JSON.stringify(task));
         this.currentDescription = task.description;
@@ -86,6 +114,27 @@ export class TableComponent {
         this.dsTasks.data = this.tasks;
         //console.log(this.dsTasks);
         //console.log(this.dsTasks.data);
+    }
+
+    createProject() {
+        console.log("Creating new project");
+
+        // Dummy Variables for Now
+        var project = new Project({
+            _id: 'asdasd',
+            name: 'My New Project'
+        });
+
+        this.auth.postProject(new ProjectPackage(project, localStorage.getItem('user'))).subscribe(proj => {
+
+        }, (err) => {
+            console.error(err);
+        });
+    }
+
+    updateProjectSelection() {
+        console.log("You chose " + this.projectSelection.name);
+        this.currentProject = this.projectSelection;
     }
 
     setDescription() {

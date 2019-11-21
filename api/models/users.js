@@ -18,6 +18,7 @@ var userSchema = new mongoose.Schema({
       ref: 'UserMetrics',
       autopopulate: true
   },
+  projects: [String],
   hash: String,
   salt: String
 });
