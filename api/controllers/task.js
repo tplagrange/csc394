@@ -27,6 +27,7 @@ module.exports.patchDescription = function(req, res) {
                     task.description = req.body.description
                     task.save()
                     res.status(200).json(task);
+                    //To-Do add error handler
         });
     }
 }
