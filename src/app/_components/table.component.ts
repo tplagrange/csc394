@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { MatTableDataSource, MatIconRegistry  } from '@angular/material';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator, MatTableDataSource, MatIconRegistry  } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { AuthenticationService, TaskDetails } from '../_services';
 import { Task, User } from '../_classes';
@@ -37,7 +37,7 @@ export class TableComponent {
             // console.log("Returning tasks")
             for (let taskItem of taskArray) {
                 this.tasks.push(new Task(taskItem));
-                console.log(taskItem);
+                // console.log(taskItem);
             }
             this.updateTableTasks();
         }, (err) => {
@@ -48,8 +48,13 @@ export class TableComponent {
         this.updateTableTasks();
     }
 
+    // Paginator Settings
+    @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
+    ngAfterViewInit() {
+        this.dsTasks.paginator = this.paginator;
+    }
+
     editTask(task: Task) {
-        // this.selectedTask = trainer;
         this.selectedTask = JSON.parse(JSON.stringify(task));
         this.currentDescription = task.description;
         this.f_firstPanel = false;
@@ -86,7 +91,7 @@ export class TableComponent {
     setDescription() {
         this.selectedTask.description = this.currentDescription;
         this.auth.setTaskDescription(this.selectedTask).subscribe(updatedTask => {
-            console.log("Updated task to " + JSON.stringify(updatedTask));
+            // console.log("Updated task to " + JSON.stringify(updatedTask));
         }, (err) => {
             console.error(err);
         });

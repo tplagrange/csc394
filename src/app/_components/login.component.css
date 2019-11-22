@@ -17,7 +17,6 @@ a{
 .bg {
   /* The image used as background */
   background-image: url("../../assets/images/background1.jpg");
-
   margin-top:-60px;
   margin-bottom:-20px;
   width: 100%;

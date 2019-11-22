@@ -3,16 +3,17 @@
         <div id="navbar-main">
 
             <ul class="nav navbar-nav">
-                <li><a routerLink="/">Home</a></li>
+                <li><a routerLink="/"><h5>TaskPanda</h5></a></li>
+                <!-- <li><a routerLink="/">Home</a></li> -->
             </ul>
 
             <ul class="nav navbar-nav navbar-right">
 
-                <li *ngIf="!auth.isLoggedIn()"><a routerLink="/login">Sign in</a></li>
+                <li *ngIf="!auth.isLoggedIn()"><a routerLink="/login"><h5>Sign in</h5></a></li>
 
-                <li *ngIf="auth.isLoggedIn()"><a routerLink="/profile">{{ auth.getUserDetails()?.name }}</a></li>
+                <li *ngIf="auth.isLoggedIn()"><a routerLink="/profile"><h5>{{ auth.getUserDetails()?.name }}</h5></a></li>
 
-                <li *ngIf="auth.isLoggedIn()"><a (click)="auth.logout()">Logout</a></li>
+                <li *ngIf="auth.isLoggedIn()"><a (click)="auth.logout()"><h5>Logout</h5></a></li>
 
             </ul>
 
