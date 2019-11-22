@@ -1,5 +1,6 @@
 @import '@angular/material/prebuilt-themes/deeppurple-amber.css';
 
+<<<<<<< HEAD
 li a:hover {
   background-color: #5F8DC6;
 }
@@ -17,3 +18,5 @@ li a{
     color: white;
 }
 
+=======
+>>>>>>> bd5640ef0cb2697c9b2c0321e907e0523df39441
