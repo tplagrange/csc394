@@ -41,35 +41,38 @@ export class TableComponent {
     ngOnInit() {
         // projectList needs to come from the api; this will be all the projects the user has access to
         this.auth.projects(localStorage.getItem('user')).subscribe(projects => {
-            console.log("Projects: " + projects);
-            for (let project of projects) {
-                console.log(projects);
-                this.projectList.push(new Project(project));
+            console.log(projects)
+            if (projects.length == 0) {
+                console.log("Baking projects");
+                this.currentProject = {
+                    _id: '0',
+                    name: "No Project Selected"
+                };
+                this.projectSelection = this.currentProject;
+            } else {
+                for (let project of projects) {
+                    this.projectList.push(new Project(project));
+                }
+                this.currentProject = this.projectList[0];
+                this.projectSelection = this.currentProject;
+
+                this.auth.tasks(this.currentProject._id).subscribe(taskArray => {
+                    console.log("Returning tasks")
+                    for (let taskItem of taskArray) {
+                        this.tasks.push(new Task(taskItem));
+                            console.log(taskItem);
+                    }
+                    this.updateTableTasks();
+                }, (err) => {
+                    console.error(err);
+                });
+
+                this.f_firstPanel = true;
+                this.updateTableTasks();
             }
         });
 
-        if (true) {
-            console.log("Baking projects");
-            this.currentProject = {
-                _id: '0',
-                name: "No Project Selected"
-            };
-            this.projectSelection = this.currentProject;
-        }
 
-        this.auth.tasks().subscribe(taskArray => {
-            // console.log("Returning tasks")
-            for (let taskItem of taskArray) {
-                this.tasks.push(new Task(taskItem));
-                // console.log(taskItem);
-            }
-            this.updateTableTasks();
-        }, (err) => {
-            console.error(err);
-        });
-
-        this.f_firstPanel = true;
-        this.updateTableTasks();
     }
 
     // Paginator Settings
@@ -80,6 +83,14 @@ export class TableComponent {
 
     addTask() {
         console.log("Adding task");
+        // Add a task to the Project tasks via api
+        this.auth.postTask(new ProjectPackage(this.currentProject, localStorage.getItem('user'))).subscribe(task => {
+
+        }, (err) =>  {
+            console.error(err);
+        });
+        // Reload the table
+        // Somehow go to edit task for this task
     }
     editTask(task: Task) {
         this.selectedTask = JSON.parse(JSON.stringify(task));

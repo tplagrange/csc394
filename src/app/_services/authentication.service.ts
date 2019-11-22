@@ -170,9 +170,17 @@ export class AuthenticationService {
   }
 
   // Task Operations
-  public tasks(): Observable<any> {
-    return this.request('get', 'tasks');
-  }
+    public tasks(projectid: string): Observable<any> {
+        let base = this.http.get(`/tasks/${projectid}`, { headers: { Authorization: `Bearer ${this.getToken()}`}});
+        const request = base.pipe();
+        return request;
+    }
+
+    public postTask(project: ProjectPackage): Observable<any> {
+        let base = this.http.post(`/api/projects/tasks`, project, { headers: { Authorization: `Bearer ${this.getToken()}` }});
+        const request = base.pipe();
+        return request;
+    }
 
   public setTaskDescription(task: Task): Observable<any> {
       var taskDetail = {
@@ -197,13 +205,13 @@ export class AuthenticationService {
 
   public postProject(project: ProjectPackage): Observable<any> {
       let base = this.http.post(`/api/projects`, project, { headers: { Authorization: `Bearer ${this.getToken()}` }});
-      const request = base.pipe()
+      const request = base.pipe();
       return request;
   }
 
   public patchUser(project: any, userid: string): Observable<any> {
       let base = this.http.patch(`/api/users/${userid}`, project, { headers: { Authorization: `Bearer ${this.getToken()}` }});
-      const request = base.pipe()
+      const request = base.pipe();
       return request;
   }
 

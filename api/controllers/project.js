@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var Project  = mongoose.model('Project');
 var User     = mongoose.model('User');
+var Task     = mongoose.model('Task');
 
 module.exports.getProjects = function(req, res) {
     if (!req.payload.exp) {
@@ -14,6 +15,9 @@ module.exports.getProjects = function(req, res) {
       var userToUpdate = User
             .findById(req.params.userid)
             .exec( function(err, user) {
+                if (!user) {
+                    res.status(404).json("No user found");
+                }
                 res.status(200).json(user.projects);
             })
 
@@ -62,6 +66,33 @@ module.exports.patchMessages = function(req, res) {
                     project.messages.push(req.body)
                     project.save()
                     res.status(200).json(project);
+                })
+    }
+}
+
+module.exports.postTask = function(req, res) {
+    if (!req.payload.exp) {
+        res.status(401).json({
+            "message" : "UnauthorizedError: private data"
+        });
+    } else {
+        var newTask = new Task();
+        newTask._id = mongoose.Types.ObjectId();
+        newTask.assignedTo = req.body.user;
+        newTask.description = "New Task";
+        newTask.save(function(err, savedTask) {
+            if (err) {
+                console.error(err);
+            }
+        });
+        var projectToUpdate = Project
+                .findById(req.body.proj._id)
+                .exec(function(err, project) {
+                    project.taskIDs.unshift(newTask._id);
+                    project.save(function (err, savedProject) {
+                        res.status(200).json(savedProject);
+                        if (err) return console.error(err);
+                    });
                 })
     }
 }

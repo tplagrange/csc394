@@ -20,7 +20,11 @@ var Message = new mongoose.Schema({
 // This is the mongoDB schema for the 'Project' model
 var projectSchema = new mongoose.Schema({
     name: String,
-    tasksIDs: [String],
+    taskIDs: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Task',
+        autopopulate: true
+    }],
     createdBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',

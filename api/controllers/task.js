@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var Task = mongoose.model('Task');
+var Project = mongoose.model('Project');
 
 module.exports.getTasks = function(req, res) {
     if (!req.payload.exp) {
@@ -7,11 +8,14 @@ module.exports.getTasks = function(req, res) {
         "message" : "UnauthorizedError: private data"
       });
     } else {
-      Task
-        .find({})
-        .exec(function(err, task) {
-          res.status(200).json(task);
-        });
+      var projectToPull = Project
+            .findById(req.params.projectid)
+            .exec(function(err, project) {
+                if (!project) {
+                    res.status(404).json("No project found");
+                }
+                res.status(200).json(project.taskIDs);
+            })
     }
 };
 

@@ -30,8 +30,9 @@ router.get('/projects/:id/messages', auth, ctrlProjects.getMessages);
 router.patch('/projects/:id/messages', auth, ctrlProjects.patchMessages);
 
 // tasks
+router.get('/tasks/:projectid', auth, ctrlTasks.getTasks);
 router.patch('/tasks/:_id', auth, ctrlTasks.patchDescription);
-router.get('/tasks', auth, ctrlTasks.getTasks);
+router.post('/projects/tasks', auth, ctrlProjects.postTask)
 
 // metrics
 router.get('/metrics/user/:_id', auth, ctrlMetrics.getUserMetrics);
