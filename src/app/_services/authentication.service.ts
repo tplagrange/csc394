@@ -225,7 +225,6 @@ export class AuthenticationService {
   }
 
   public getMessages(projectid: string): Observable<any> {
-      console.log(projectid)
       let base = this.http.get(`/api/chat/${projectid}`, { headers: { Authorization: `Bearer ${this.getToken()}` }});
       const request = base.pipe();
       return request;

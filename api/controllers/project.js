@@ -67,7 +67,6 @@ module.exports.patchMessages = function(req, res) {
         var projectToUpdate = Project
                 .findById(req.params.pid)
                 .exec(function(err, project) {
-                    console.log("Patching message: " + req.body)
                     project.messages.push(req.body)
                     project.save()
                     res.status(200).json(project);
