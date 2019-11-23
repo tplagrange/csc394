@@ -145,6 +145,7 @@ export class TableComponent {
     updateSelection(selection: Project) {
         console.log("You chose " + selection.name);
         this.currentProject = selection;
+        // Update the table with the tasks for this project
     }
 
     setDescription() {

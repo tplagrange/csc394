@@ -1,6 +1,6 @@
 <div class="table-container">
 <mat-accordion>
-	<mat-expansion-panel [expanded]='f_firstPanel' [disabled]='!f_firstPanel'>
+	<mat-expansion-panel [expanded]='f_firstPanel' [disabled]='!f_firstPanel' hideToggle=true>
 		<mat-expansion-panel-header style="margin: 10px">
 			<mat-panel-title style="margin: 10px">Tasks</mat-panel-title>
             <mat-form-field>
@@ -9,7 +9,7 @@
                 <mat-option (click)='createProject()'>Create New Project</mat-option>
               </mat-select>
             </mat-form-field>
-            <button mat-raised-button (click)="addTask()" style="margin: 10px">Add Task</button>
+            <button mat-raised-button color="primary" (click)="addTask()" style="margin: 10px">Add Task</button>
 		</mat-expansion-panel-header>
 		<table mat-table [dataSource]="dsTasks" class="mat-elevation-z8">
 			<ng-container matColumnDef="assignedTo">
