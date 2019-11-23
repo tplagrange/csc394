@@ -39,21 +39,25 @@ export class ChatComponent {
           return
       } else {
           this.auth.getMessages(localStorage.getItem('project')).subscribe(messages => {
-              this.messages = messages;
+              if (this.messages.length != messages.length) {
+                  this.messages = messages;
+              }
           });
       }
   }
 
   sendMessage(event: any) {
-    console.log(event)
-    this.messages.push({
+    var nm = {
       text: event.message,
       date: new Date(),
       user: {
-        name: localStorage.getItem('user'),
+        name: localStorage.getItem('email'),
       },
-    });
-    this.auth.patchMessages(localStorage.getItem('project'), event).subscribe(res => {
+    };
+
+    this.messages.push(nm)
+
+    this.auth.patchMessages(localStorage.getItem('project'), nm).subscribe(res => {
 
     }, (err) => {
         console.error(err);

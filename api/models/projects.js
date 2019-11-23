@@ -10,7 +10,6 @@ var Message = new mongoose.Schema({
         avatar: String,
     },
     date: String,
-    files: String,
     quote: String,
     latitude: String,
     longitude: String,

@@ -218,7 +218,7 @@ export class AuthenticationService {
   }
 
   // Chat Operations
-  public patchMessages(projectid: string, message: Message): Observable<any> {
+  public patchMessages(projectid: string, message: any): Observable<any> {
       let base = this.http.patch(`/api/chat/${projectid}`, message, { headers: { Authorization: `Bearer ${this.getToken()}` }});
       const request = base.pipe();
       return request;

@@ -8,7 +8,6 @@ module.exports.getTasks = function(req, res) {
         "message" : "UnauthorizedError: private data"
       });
     } else {
-        console.log(req.params.pid)
         var projectToPull = Project
                 .findById(req.params.pid)
                 .exec(function(err, project) {
@@ -27,7 +26,6 @@ module.exports.patchDescription = function(req, res) {
         "message" : "UnauthorizedError: private data"
       });
     } else {
-        console.log("inside patch")
         var taskToUpdate = Task
                 .findById(req.params.id)
                 .exec(function(err, task) {

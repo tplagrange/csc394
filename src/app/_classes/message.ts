@@ -10,7 +10,6 @@ export class Message {
         avatar: string;
     };
     date: string;
-    files: string;
     quote: string;
     latitude: string;
     longitude: string;
@@ -22,7 +21,6 @@ export class Message {
       this.reply = md.type;
       this.user = md.user;
       this.date = md.date;
-      this.files = md.files;
       this.quote = md.quote;
       this.latitude = md.latitude;
       this.longitude = md.longitude;
