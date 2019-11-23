@@ -55,12 +55,12 @@ export class TableComponent {
                 }
                 this.currentProject = this.projectList[0];
                 this.projectSelection = this.currentProject;
+                localStorage.setItem('project', this.currentProject._id)
 
                 this.auth.tasks(this.currentProject._id).subscribe(taskArray => {
                     for (let taskItem of taskArray) {
                         this.tasks.push(new Task(taskItem));
                     }
-                    console.log(this.tasks);
                     this.updateTableTasks();
                 }, (err) => {
                     console.error(err);
@@ -146,7 +146,6 @@ export class TableComponent {
             for (let taskItem of taskArray) {
                 this.tasks.push(new Task(taskItem));
             }
-            console.log(this.tasks);
             this.updateTableTasks();
         }, (err) => {
             console.error(err);
@@ -164,6 +163,7 @@ export class TableComponent {
     updateSelection(selection: Project) {
         console.log("You chose " + selection.name);
         this.currentProject = selection;
+        localStorage.setItem('project', this.currentProject._id)
         this.pullTasks();
         this.f_firstPanel = true;
     }

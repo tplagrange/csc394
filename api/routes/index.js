@@ -26,8 +26,8 @@ router.get('/projects/:userid', auth, ctrlProjects.getProjects);
 router.patch('/users/:userid', auth, ctrlUsers.patchUser);
 
 // messages
-router.get('/projects/:id/messages', auth, ctrlProjects.getMessages);
-router.patch('/projects/:id/messages', auth, ctrlProjects.patchMessages);
+router.get('/chat/:pid', auth, ctrlProjects.getMessages);
+router.patch('/chat/:pid', auth, ctrlProjects.patchMessages);
 
 // task
 router.patch('/task/:id', auth, ctrlTasks.patchDescription);

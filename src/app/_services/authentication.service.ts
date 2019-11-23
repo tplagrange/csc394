@@ -219,13 +219,14 @@ export class AuthenticationService {
 
   // Chat Operations
   public patchMessages(projectid: string, message: Message): Observable<any> {
-      let base = this.http.patch(`/api/projects/${projectid}/messages`, message, { headers: { Authorization: `Bearer ${this.getToken()}` }});
+      let base = this.http.patch(`/api/chat/${projectid}`, message, { headers: { Authorization: `Bearer ${this.getToken()}` }});
       const request = base.pipe();
       return request;
   }
 
   public getMessages(projectid: string): Observable<any> {
-      let base = this.http.get(`/api/${projectid}/messages`, { headers: { Authorization: `Bearer ${this.getToken()}` }});
+      console.log(projectid)
+      let base = this.http.get(`/api/chat/${projectid}`, { headers: { Authorization: `Bearer ${this.getToken()}` }});
       const request = base.pipe();
       return request;
   }

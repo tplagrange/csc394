@@ -48,8 +48,12 @@ module.exports.getMessages = function(req, res) {
             "message" : "UnauthorizedError: private data"
       });
     } else {
-      // Get all the messages
-      console.log("Getting messages");
+      var project = Project
+            .findById(req.params.pid)
+            .lean()
+            .exec( (err, project) => {
+                res.status(200).json(project.messages);
+            })
     }
 };
 
@@ -61,7 +65,7 @@ module.exports.patchMessages = function(req, res) {
     } else {
         // Push to the message array
         var projectToUpdate = Project
-                .findById(req.params.id)
+                .findById(req.params.pid)
                 .exec(function(err, project) {
                     project.messages.push(req.body)
                     project.save()
