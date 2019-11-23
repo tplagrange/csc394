@@ -123,6 +123,23 @@ export class TableComponent {
         //console.log(this.dsTasks.data);
     }
 
+    pullTasks() {
+        this.tasks = new Array();
+        this.updateTableTasks();
+        this.auth.tasks(this.currentProject._id).subscribe(taskArray => {
+            for (let taskItem of taskArray) {
+                this.tasks.push(new Task(taskItem));
+            }
+            console.log(this.tasks);
+            this.updateTableTasks();
+        }, (err) => {
+            console.error(err);
+        });
+
+        this.f_firstPanel = true;
+        this.updateTableTasks();
+    }
+
     createProject() {
         // Dummy Variables for Now
         var project = new Project({
@@ -145,7 +162,7 @@ export class TableComponent {
     updateSelection(selection: Project) {
         console.log("You chose " + selection.name);
         this.currentProject = selection;
-        // Update the table with the tasks for this project
+        this.pullTasks();
     }
 
     setDescription() {
