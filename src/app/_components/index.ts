@@ -7,3 +7,4 @@ export * from './register.component';
 export * from './table.component';
 export * from './my-line-chart.component';
 export * from './chat.component';
+export * from './project.component';

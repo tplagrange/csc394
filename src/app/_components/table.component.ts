@@ -3,6 +3,7 @@ import { MatPaginator, MatTableDataSource, MatIconRegistry  } from '@angular/mat
 import { DomSanitizer } from '@angular/platform-browser';
 import { AuthenticationService, TaskDetails, ProjectDetails, ProjectPackage } from '../_services';
 import { Task, Project, User } from '../_classes';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-table',
@@ -32,7 +33,7 @@ export class TableComponent {
     f_firstPanel = false;
     f_secondPanel = false;
 
-    constructor(private auth: AuthenticationService) {
+    constructor(private auth: AuthenticationService, private router: Router) {
         this.dsTasks = new MatTableDataSource<Task>();
         this.tasks = new Array();
         this.projectList = new Array();
@@ -141,28 +142,15 @@ export class TableComponent {
     }
 
     createProject() {
-        // Dummy Variables for Now
-        var project = new Project({
-            _id: 'asdasd',
-            name: 'Your New Project'
-        });
-
-        this.auth.postProject(new ProjectPackage(project, localStorage.getItem('user'))).subscribe(proj => {
-            // Give the user access to the project
-            this.auth.patchUser(proj, localStorage.getItem('user')).subscribe(user => {
-                console.log("user updated");
-            }, (err) => {
-                console.error(err);
-            });
-        }, (err) => {
-            console.error(err);
-        });
+        // Redirect to the project creation page
+        this.router.navigateByUrl('/project');
     }
 
     updateSelection(selection: Project) {
         console.log("You chose " + selection.name);
         this.currentProject = selection;
         this.pullTasks();
+        this.f_firstPanel = true;
     }
 
     setDescription() {
