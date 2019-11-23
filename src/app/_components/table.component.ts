@@ -81,10 +81,25 @@ export class TableComponent {
     }
 
     addTask() {
+        // Immediately add this task to the table for viewing
+        var nt = new Task({
+            _id: 0,
+            assignedTo: this.tasks[0].assignedTo,
+            description: "none",
+            status: "To-Do",
+            reviewedBy: this.tasks[0].reviewedBy,
+            // this.dueDate = td.dueDate.toString();
+            rating: "none",
+        });
+        this.tasks.unshift(nt);
+        this.selectedTask = this.tasks[0];
+        this.f_firstPanel = false;
+        this.f_secondPanel = true;
+        this.updateTableTasks();
+
         // Add a task to the Project tasks via api
         this.auth.postTask(new ProjectPackage(this.currentProject, localStorage.getItem('user'))).subscribe(task => {
-            // this.tasks.unshift(task);
-            this.updateTableTasks();
+            console.log(task);
         }, (err) =>  {
             console.error(err);
         });
