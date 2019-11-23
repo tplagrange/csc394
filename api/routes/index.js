@@ -29,9 +29,11 @@ router.patch('/users/:userid', auth, ctrlUsers.patchUser);
 router.get('/projects/:id/messages', auth, ctrlProjects.getMessages);
 router.patch('/projects/:id/messages', auth, ctrlProjects.patchMessages);
 
+// task
+router.patch('/task/:id', auth, ctrlTasks.patchDescription);
+
 // tasks
-router.get('/tasks/:projectid', auth, ctrlTasks.getTasks);
-router.patch('/tasks/:_id', auth, ctrlTasks.patchDescription);
+router.get('/tasks/project/:pid', auth, ctrlTasks.getTasks);
 router.post('/projects/tasks', auth, ctrlProjects.postTask)
 
 // metrics

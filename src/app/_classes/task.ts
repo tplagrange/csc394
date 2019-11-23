@@ -7,7 +7,7 @@ export class Task {
     description: string;
     status: string;
     reviewedBy: User;
-    dueDate: string;
+    // dueDate: string;
     rating: string;
 
     constructor(td:TaskDetails) {
@@ -16,7 +16,7 @@ export class Task {
         this.description = td.description;
         this.status = td.status;
         this.reviewedBy = td.reviewedBy;
-        this.dueDate = td.dueDate.toString();
+        // this.dueDate = td.dueDate.toString();
         this.rating = td.rating;
     }
 }

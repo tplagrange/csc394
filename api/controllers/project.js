@@ -76,11 +76,14 @@ module.exports.postTask = function(req, res) {
             "message" : "UnauthorizedError: private data"
         });
     } else {
-        var newTask = new Task();
-        newTask._id = mongoose.Types.ObjectId();
-        newTask.assignedTo = req.body.user;
-        newTask.description = "New Task";
-        newTask.save(function(err, savedTask) {
+        var nt = new Task();
+        nt._id = mongoose.Types.ObjectId();
+        nt.assignedTo = req.body.user;
+        nt.description = "New Task";
+        nt.status = "To-Do";
+        // nt.dueDate = new Date();
+
+        nt.save(function(err, savedTask) {
             if (err) {
                 console.error(err);
             }
@@ -88,7 +91,7 @@ module.exports.postTask = function(req, res) {
         var projectToUpdate = Project
                 .findById(req.body.proj._id)
                 .exec(function(err, project) {
-                    project.taskIDs.unshift(newTask._id);
+                    project.taskIDs.unshift(nt._id);
                     project.save(function (err, savedProject) {
                         res.status(200).json(savedProject);
                         if (err) return console.error(err);

@@ -8,14 +8,16 @@ module.exports.getTasks = function(req, res) {
         "message" : "UnauthorizedError: private data"
       });
     } else {
-      var projectToPull = Project
-            .findById(req.params.projectid)
-            .exec(function(err, project) {
-                if (!project) {
-                    res.status(404).json("No project found");
-                }
-                res.status(200).json(project.taskIDs);
-            })
+        console.log(req.params.pid)
+        var projectToPull = Project
+                .findById(req.params.pid)
+                .exec(function(err, project) {
+                    if (err) {
+                        console.error(err)
+                        res.status(404).json("No project found");
+                    }
+                    res.status(200).json(project.taskIDs);
+                })
     }
 };
 
@@ -25,8 +27,9 @@ module.exports.patchDescription = function(req, res) {
         "message" : "UnauthorizedError: private data"
       });
     } else {
+        console.log("inside patch")
         var taskToUpdate = Task
-                .findById(req.body._id)
+                .findById(req.params.id)
                 .exec(function(err, task) {
                     task.description = req.body.description
                     task.save()

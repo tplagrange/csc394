@@ -20,7 +20,7 @@ export interface TaskDetails {
     description: string;
     status: string;
     reviewedBy: User;
-    dueDate: Date;
+    // dueDate: Date;
     rating: string;
 }
 
@@ -171,7 +171,7 @@ export class AuthenticationService {
 
   // Task Operations
     public tasks(projectid: string): Observable<any> {
-        let base = this.http.get(`/tasks/${projectid}`, { headers: { Authorization: `Bearer ${this.getToken()}`}});
+        let base = this.http.get(`/api/tasks/project/${projectid}`, { headers: { Authorization: `Bearer ${this.getToken()}`}});
         const request = base.pipe();
         return request;
     }
@@ -189,11 +189,13 @@ export class AuthenticationService {
           'description': task.description,
           'status': task.status,
           'reviewedBy': task.reviewedBy,
-          'dueDate': new Date(task.dueDate),
+          // 'dueDate': new Date(task.dueDate),
           'rating': task.rating
       }
 
-      return this.updateRequest('patch', 'tasks', taskDetail);
+      let base = this.http.patch(`/api/task/${task._id}`, taskDetail, { headers: { Authorization: `Bearer ${this.getToken()}` }});
+      const request = base.pipe();
+      return request;
   }
 
   // Project Operations
