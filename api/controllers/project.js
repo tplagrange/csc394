@@ -109,7 +109,7 @@ module.exports.postTask = function(req, res) {
             res.status(200).json(savedTask);
         });
         var projectToUpdate = Project
-                .findById(req.body.proj._id)
+                .findById(req.body._id)
                 .exec(function(err, project) {
                     project.taskIDs.unshift(nt._id);
                     project.save(function (err, savedProject) {

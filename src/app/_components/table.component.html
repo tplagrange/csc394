@@ -9,7 +9,7 @@
                 <mat-option (click)='createProject()'>Create New Project</mat-option>
               </mat-select>
             </mat-form-field>
-            <button mat-raised-button color="primary" [disabled]="projectExists" (click)="addTask()" style="margin: 10px">Add Task</button>
+            <button mat-raised-button color="primary" [disabled]="noProjects" (click)="addTask()" style="margin: 10px">Add Task</button>
 		</mat-expansion-panel-header>
 		<table mat-table [dataSource]="dsTasks" class="mat-elevation-z8">
 			<ng-container matColumnDef="assignedTo">

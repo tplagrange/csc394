@@ -12,7 +12,9 @@ export class LoginComponent {
     password: ''
   };
 
-  constructor(private auth: AuthenticationService, private router: Router) {}
+  constructor(private auth: AuthenticationService, private router: Router) {
+      localStorage.clear();
+  }
 
   login() {
     this.auth.login(this.credentials).subscribe(() => {

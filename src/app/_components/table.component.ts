@@ -20,7 +20,7 @@ export class TableComponent {
     projectList: Project[];
     currentProject: Project;
     projectSelection: Project;
-    projectExists: boolean;
+    noProjects: boolean;
 
     // DataSource and Column names for table
     dsTasks: MatTableDataSource<Task>;
@@ -42,7 +42,7 @@ export class TableComponent {
         this.tasks = new Array();
         this.projectList = new Array();
         this.userList = new Array();
-        this.projectExists = true;
+        this.noProjects = true;
     }
 
     ngOnInit() {
@@ -60,12 +60,13 @@ export class TableComponent {
                 };
                 this.projectSelection = this.currentProject;
             } else {
-                this.projectExists = false;
+                this.noProjects = false;
                 for (let project of projects) {
                     this.projectList.push(new Project(project));
                 }
                 this.currentProject = this.projectList[0];
                 this.projectSelection = this.currentProject;
+                this.userList = this.currentProject.users;
                 localStorage.setItem('project', this.currentProject._id)
 
                 this.auth.tasks(this.currentProject._id).subscribe(taskArray => {
@@ -199,6 +200,7 @@ export class TableComponent {
 
     updateSelection(selection: Project) {
         this.currentProject = selection;
+        this.userList = this.currentProject.users;
         localStorage.setItem('project', this.currentProject._id)
         this.pullTasks();
         this.f_firstPanel = true;
