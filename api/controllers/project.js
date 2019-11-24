@@ -36,6 +36,12 @@ module.exports.postProject = function(req, res) {
         proj._id = req.body._id;
         proj.name = req.body.proj.name;
         proj.taskIDs = new Array();
+        proj.users = new Array();
+        proj.users.push({
+            id: req.body.user._id,
+            name: req.body.user.name,
+            email: req.body.user.email
+        })
         proj.createdBy = req.body.user;
         proj.save(function (err, savedProject) {
             res.status(200).json(savedProject);

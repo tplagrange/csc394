@@ -29,6 +29,8 @@ export class TableComponent {
     // UI Variables
     selectedTask: Task;
     currentDescription: string;
+    currentStatus: string;
+    currentAssignment: User;
 
     // Flags that control the expansion panel
     f_firstPanel = false;
@@ -120,7 +122,9 @@ export class TableComponent {
     }
     editTask(task: Task) {
         this.selectedTask = JSON.parse(JSON.stringify(task));
+        this.currentAssignment = task.assignedTo;
         this.currentDescription = task.description;
+        this.currentStatus = task.status;
         this.f_firstPanel = false;
         this.f_secondPanel = true;
     }
@@ -132,12 +136,16 @@ export class TableComponent {
     }
 
     finishEdit() {
+        // this.selectedTask.assignedTo = this.currentAssignment;
+        this.selectedTask.status = this.currentStatus;
+        this.selectedTask.description = this.currentDescription;
+
+        this.updateTask();
+
         this.f_firstPanel = true;
         this.f_secondPanel = false;
         const index = this.findIndexofTask();
         this.tasks[index] = this.selectedTask;
-        this.updateTableTasks();
-        this.selectedTask = null;
     }
 
     findIndexofTask(): number {
@@ -149,11 +157,13 @@ export class TableComponent {
     updateTableTasks() {
         this.dsTasks.data = this.tasks;
         for (let task of this.dsTasks.data) {
-            var param = "";
+            var param;
             if (typeof task.assignedTo != 'string') {
-                param = task.assignedTo.name;
+                param = task.assignedTo._id;
+            } else {
+                param = task.assignedTo;
             }
-            this.auth.getUser(task.assignedTo).subscribe(user => {
+            this.auth.getUser(param).subscribe(user => {
                 task.assignedTo = user
             });
         }
@@ -181,7 +191,6 @@ export class TableComponent {
     }
 
     updateSelection(selection: Project) {
-        console.log("You chose " + selection.name);
         this.currentProject = selection;
         localStorage.setItem('project', this.currentProject._id)
         this.pullTasks();
@@ -189,26 +198,8 @@ export class TableComponent {
     }
 
     updateTask() {
-        // var nt = new Task({
-        //     _id: this.selectedTask._id,
-        //     assignedTo: {
-        //         _id: this.selectedTask.assignedTo._id,
-        //         name: this.selectedTask.assignedTo.name
-        //     },
-        //     description: this.currentDescription,
-        //     status: "To-Do",
-        //     reviewedBy: {
-        //         _id: localStorage.getItem('user'),
-        //         name: localStorage.getItem('name')
-        //     },
-        //     // this.dueDate = td.dueDate.toString();
-        //     rating: "none",
-        // });
-
-        this.selectedTask.description = this.currentDescription;
-
         this.auth.patchTask(this.selectedTask).subscribe(updatedTask => {
-            console.log("Updated task to " + JSON.stringify(updatedTask));
+            this.updateTableTasks();
         }, (err) => {
             console.error(err);
         });

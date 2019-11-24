@@ -16,6 +16,12 @@ var Message = new mongoose.Schema({
     avatar: String
 });
 
+var LightUser = new mongoose.Schema({
+    id: mongoose.Schema.Types.ObjectId,
+    name: String,
+    email: String
+})
+
 // This is the mongoDB schema for the 'Project' model
 var projectSchema = new mongoose.Schema({
     name: String,
@@ -29,6 +35,7 @@ var projectSchema = new mongoose.Schema({
         ref: 'User',
         autopopulate: true
     },
+    users: [LightUser],
     messages: [Message],
     metrics: {
         tasksOpened: Number,

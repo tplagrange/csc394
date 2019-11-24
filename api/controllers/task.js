@@ -35,7 +35,9 @@ module.exports.patchTask = function(req, res) {
                         res.status(500).json(err);
                         return;
                     }
+                    // task.assignedTo = req.body.assignedTo
                     task.description = req.body.description
+                    task.status = req.body.status
                     task.save()
                     res.status(200).json(task);
         });

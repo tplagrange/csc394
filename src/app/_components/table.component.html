@@ -58,6 +58,8 @@
 			<mat-panel-title>Editing the Task</mat-panel-title>
 	</mat-expansion-panel-header>
 
+    <!-- Set Assignment -->
+
     <!-- Set Description -->
     <mat-form-field class="text-full-width">
         <textarea matInput
@@ -66,7 +68,16 @@
         </textarea>
     </mat-form-field>
 
-<button mat-raised-button (click)="updateTask()" style="margin: 10px">Set Description</button>
+    <!-- Set Status -->
+    <mat-form-field>
+      <mat-select placeholder="Task Status" [(value)]="currentStatus">
+          <mat-option value="To-Do">To-Do</mat-option>
+          <mat-option value="In Progress">In Progress</mat-option>
+          <mat-option value="Complete">Complete</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+
 <br>
 <br>
 <div style="margin: auto">
