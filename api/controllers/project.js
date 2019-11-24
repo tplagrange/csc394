@@ -59,7 +59,6 @@ module.exports.getMessages = function(req, res) {
       var project = Project
             .findById(req.params.pid)
             .lean()
-            .populate('messages')
             .exec( (err, project) => {
                 if (err) {
                     res.status(500).json(err)

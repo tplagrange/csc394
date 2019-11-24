@@ -39,6 +39,7 @@ export class ChatComponent {
           return
       } else {
           this.auth.getMessages(localStorage.getItem('project')).subscribe(messages => {
+              console.log(messages);
               if (this.messages.length != messages.length || this.messages.length > 0 && this.messages[0].user.name == "System") {
                   this.messages = messages;
               }
