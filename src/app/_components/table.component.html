@@ -60,7 +60,7 @@
 
     <!-- Set Assignment -->
     <mat-form-field>
-      <mat-select placeholder="Assign this task" [(ngModel)]="currentAssignment">
+      <mat-select placeholder="Assign Task" [(value)]="currentAssignment">
         <mat-option *ngFor="let user of userList" [value]="currentAssignment">{{user.name}}</mat-option>
       </mat-select>
     </mat-form-field>

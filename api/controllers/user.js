@@ -27,7 +27,7 @@ module.exports.patchUser = function(req, res) {
         var userToUpdate = User
                 .findById(req.params.userid)
                 .exec(function(err, user) {
-                    user.projects.push(req.body)
+                    user.projects.unshift(req.body)
                     user.save()
                     res.status(200).json(user);
                     //To-Do add error handler
