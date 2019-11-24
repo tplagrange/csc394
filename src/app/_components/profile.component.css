@@ -1,0 +1,8 @@
+.img{
+    float: left;
+    text-align: right;
+}
+
+.col-sm-3 control-label{
+    text-align: right;
+}

@@ -1,3 +1,39 @@
 body {
 }
 
+.pie{
+float:right;
+}
+#pie{
+    float: right;
+    /*margin-top: 5%;*/
+    text-align: center;
+    display: inline-block;
+    width: auto;
+}
+#bar {
+    float: left;
+    /*margin-top: 5%;*/
+    text-align: center;
+    display: inline-block;
+    margin-right: 1%;
+    width:auto;
+}
+
+.bar{
+    float: left;
+}
+
+#bar-graph{
+
+}
+
+#pie-chart{
+
+}
+
+#graphs{
+    /*max-height: 35%;
+    margin-top: 5%;*/
+    display: flex;
+}

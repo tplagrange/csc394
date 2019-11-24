@@ -1,19 +1,25 @@
 <div class="container">
   <div class="row">
-    
+
      <div class="col-md-6">
 
       <h1 class="form-signin-heading">Your profile</h1>
 
       <div class="form-horizontal">
-        <div class="form-group">
-          <label class="col-sm-3 control-label">Full name</label>
-          <p class="form-control-static">{{ details?.name }}</p>
-        </div>
-        <div class="form-group">
-          <label class="col-sm-3 control-label">Email</label>
-          <p class="form-control-static">{{ details?.email }}</p>
-        </div>
+        <div class="form-group" >
+            <div class="img">
+                <img src="../../assets/images/user4.png" style="width:150px;height:150px;margin-left:80px;">
+            </div>
+            <br>
+            <br>
+          <label class="col-sm-3 control-label">Full name: </label>
+            <p class="form-control-static"><font size="3">{{ details?.name }}</font></p>
+
+
+          <label class="col-sm-3 control-label">Email: </label>
+
+            <p class="form-control-static"><font size="3">{{ details?.email }}</font></p>
+</div>
       </div>
 
     </div>
