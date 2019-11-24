@@ -5,6 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NbThemeModule, NbChatModule, NbLayoutModule } from '@nebular/theme';
 
 // Charts
 import { ChartsModule } from 'ng2-charts';
@@ -28,9 +29,11 @@ import { ProfileComponent } from './_components';
 import { LoginComponent } from './_components';
 import { RegisterComponent } from './_components';
 import { HomeComponent } from './_components';
-//import { TableRowComponent } from './_components';
+import { ChatComponent } from './_components';
 import { TableComponent } from './_components';
 import { MyLineChartComponent } from './_components';
+import { ProjectComponent } from './_components';
+import { EditProjectComponent } from './_components';
 
 // Services
 import { AuthenticationService } from './_services';
@@ -42,20 +45,24 @@ const routes: Routes = [
   { path: '', component: HomeComponent, canActivate:[AuthGuardService]},
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'profile', component: ProfileComponent, canActivate: [AuthGuardService] }
+  { path: 'profile', component: ProfileComponent, canActivate: [AuthGuardService] },
+  { path: 'project', component: ProjectComponent },
+  { path: 'pedit', component: EditProjectComponent }
 ];
 
 @NgModule({
   declarations: [
     AppComponent,
     AlertComponent,
+    ChatComponent,
     ProfileComponent,
     LoginComponent,
     RegisterComponent,
     HomeComponent,
-    //TableRowComponent,
     TableComponent,
-    MyLineChartComponent
+    MyLineChartComponent,
+    ProjectComponent,
+    EditProjectComponent,
   ],
   imports: [
     BrowserModule,
@@ -73,16 +80,17 @@ const routes: Routes = [
     MatSelectModule,
     FormsModule,
     HttpClientModule,
-      RouterModule.forRoot(routes),
-      ChartsModule,
-      NgChartjsModule
-
+    RouterModule.forRoot(routes),
+    ChartsModule,
+    NgChartjsModule,
+    NbLayoutModule,
+    NbThemeModule.forRoot({ name: 'default' }),
+    NbChatModule,
   ],
   providers: [
     AlertService,
     AuthenticationService,
-      AuthGuardService
-
+    AuthGuardService,
   ],
   bootstrap: [AppComponent]
 })

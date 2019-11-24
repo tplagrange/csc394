@@ -4,24 +4,78 @@ import { Observable } from 'rxjs/Observable';
 import { map } from 'rxjs/operators/map';
 import { Router } from '@angular/router';
 
-import { Task, User } from '../_classes'
+import { Project, Message, Task, User } from '../_classes'
 
 export interface UserDetails {
-  _id: number;
-  email: string;
-  name: string;
-  exp: number;
-  iat: number;
+    _id: string;
+    email: string;
+    name: string;
+    exp: number;
+    iat: number;
+}
+
+export interface LightUser {
+    uid: string,
+    uname: string,
+    uemail: string
 }
 
 export interface TaskDetails {
-  _id: number;
-  assignedTo: User;
-  description: string;
-  status: string;
-  reviewedBy: User;
-  dueDate: Date;
-  rating: string;
+    _id: string;
+    assignedTo: User;
+    description: string;
+    status: string;
+    reviewedBy: User;
+    // dueDate: Date;
+    rating: string;
+}
+
+export interface MessageDetails {
+    type: string;
+    text: string;
+    reply: string;
+    user: {
+    name: string;
+    avatar: string;
+    };
+    date: string;
+    files: string;
+    quote: string;
+    latitude: string;
+    longitude: string;
+    avatar: string;
+}
+
+export interface ProjectDetails {
+    _id: string;
+    name: string;
+    users: LightUser[];
+    // tasksIDs: string[];
+    // createdBy: string;
+    // messages: MessageDetails[];
+    // metrics: {
+    //     tasksOpened: number,
+    //     tasksActive: number,
+    //     tasksClosed: number
+    // }
+}
+
+export class ProjectPackage {
+    _id: string;
+    name: string;
+    uid: string;
+    uname: string;
+    uemail: string;
+    user: string;
+
+    constructor(project: Project, userID: string) {
+        this._id = project._id;
+        this.name = project.name;
+        this.uid = project.users[0].uid;
+        this.uname = project.users[0].uname;
+        this.uemail = project.users[0].uemail;
+        this.user = userID;
+    }
 }
 
 interface TokenResponse {
@@ -98,11 +152,7 @@ export class AuthenticationService {
       let base;
 
       base = this.http.get(`/api/metrics/${type}/${id}`, { headers: { Authorization: `Bearer ${this.getToken()}`}});
-
       const request = base.pipe();
-
-      console.log(request);
-
       return request;
   }
 
@@ -135,25 +185,81 @@ export class AuthenticationService {
   }
 
   // Task Operations
-  public tasks(): Observable<any> {
-    return this.request('get', 'tasks');
-  }
+    public tasks(projectid: string): Observable<any> {
+        let base = this.http.get(`/api/tasks/project/${projectid}`, { headers: { Authorization: `Bearer ${this.getToken()}`}});
+        const request = base.pipe();
+        return request;
+    }
 
-  public setTaskDescription(task: Task): Observable<any> {
-      console.log("Auth will try to set task description");
+    public postTask(project: ProjectPackage): Observable<any> {
+        let base = this.http.post(`/api/projects/tasks`, project, { headers: { Authorization: `Bearer ${this.getToken()}` }});
+        const request = base.pipe();
+        return request;
+    }
+
+  public patchTask(task: Task): Observable<any> {
       var taskDetail = {
           '_id': task._id,
           'assignedTo': task.assignedTo,
           'description': task.description,
           'status': task.status,
           'reviewedBy': task.reviewedBy,
-          'dueDate': new Date(task.dueDate),
+          // 'dueDate': new Date(task.dueDate),
           'rating': task.rating
       }
 
-      return this.updateRequest('patch', 'tasks', taskDetail);
+      let base = this.http.patch(`/api/tasks/${task._id}`, taskDetail, { headers: { Authorization: `Bearer ${this.getToken()}` }});
+      const request = base.pipe();
+      return request;
   }
 
+  // Project Operations
+  public projects(userid: string):Observable<any> {
+      let base = this.http.get(`/api/projects/${userid}`, { headers: { Authorization: `Bearer ${this.getToken()}` }});
+      const request = base.pipe();
+      return request;
+  }
+
+  public postProject(project: ProjectPackage): Observable<any> {
+      let base = this.http.post(`/api/projects`, project, { headers: { Authorization: `Bearer ${this.getToken()}` }});
+      const request = base.pipe();
+      return request;
+  }
+
+  public patchProject(user: LightUser, projectid: string): Observable<any> {
+      let base = this.http.patch(`/api/projects/${projectid}`, user, { headers: { Authorization: `Bearer ${this.getToken()}` }});
+      const request = base.pipe();
+      return request;
+  }
+
+  // User Operations
+
+  public patchUser(project: any, userid: string): Observable<any> {
+      let base = this.http.patch(`/api/users/${userid}`, project, { headers: { Authorization: `Bearer ${this.getToken()}` }});
+      const request = base.pipe();
+      return request;
+  }
+
+  public getUser(userid: any): Observable<any> {
+      let base = this.http.get(`/api/users/${userid}`, { headers: { Authorization: `Bearer ${this.getToken()}` }});
+      const request = base.pipe();
+      return request;
+  }
+
+  // Chat Operations
+  public patchMessages(projectid: string, message: any): Observable<any> {
+      let base = this.http.patch(`/api/chat/${projectid}`, message, { headers: { Authorization: `Bearer ${this.getToken()}` }});
+      const request = base.pipe();
+      return request;
+  }
+
+  public getMessages(projectid: string): Observable<any> {
+      let base = this.http.get(`/api/chat/${projectid}`, { headers: { Authorization: `Bearer ${this.getToken()}` }});
+      const request = base.pipe();
+      return request;
+  }
+
+  // User Metric Operations
   public getUserMetrics(id: number): Observable<any> {
       return this.requestMetrics('users', id);
   }
