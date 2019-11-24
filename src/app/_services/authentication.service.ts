@@ -14,6 +14,12 @@ export interface UserDetails {
     iat: number;
 }
 
+export interface LightUser {
+    uid: string,
+    uname: string,
+    uemail: string
+}
+
 export interface TaskDetails {
     _id: string;
     assignedTo: User;
@@ -43,6 +49,7 @@ export interface MessageDetails {
 export interface ProjectDetails {
     _id: string;
     name: string;
+    users: LightUser[];
     // tasksIDs: string[];
     // createdBy: string;
     // messages: MessageDetails[];
@@ -54,14 +61,19 @@ export interface ProjectDetails {
 }
 
 export class ProjectPackage {
-    proj: {
-        _id: string,
-
-    }
+    _id: string;
+    name: string;
+    uid: string;
+    uname: string;
+    uemail: string;
     user: string;
 
     constructor(project: Project, userID: string) {
-        this.proj = project;
+        this._id = project._id;
+        this.name = project.name;
+        this.uid = project.users[0].uid;
+        this.uname = project.users[0].uname;
+        this.uemail = project.users[0].uemail;
         this.user = userID;
     }
 }

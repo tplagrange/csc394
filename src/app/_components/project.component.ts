@@ -14,15 +14,24 @@ export class ProjectComponent {
 
     constructor(private auth: AuthenticationService, private router: Router) {};
 
+    ngOnInit() {
+        this.name = ""
+    }
+
     setProjectName() {
         // This is where the creation logic should go for the new project with the name
-        if (!this.name) {
+        if (this.name == "") {
             this.name = "New Project"
         }
 
         var project = new Project({
             _id: 'asdasd',
-            name: this.name
+            name: this.name,
+            users: [{
+                uid: localStorage.getItem('user'),
+                uname: localStorage.getItem('name'),
+                uemail: localStorage.getItem('email')
+            }]
         });
 
         this.auth.postProject(new ProjectPackage(project, localStorage.getItem('user'))).subscribe(proj => {

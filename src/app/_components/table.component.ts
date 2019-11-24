@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, MatTableDataSource, MatIconRegistry  } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
-import { AuthenticationService, TaskDetails, ProjectDetails, ProjectPackage } from '../_services';
+import { AuthenticationService, TaskDetails, ProjectDetails, ProjectPackage, LightUser } from '../_services';
 import { Task, Project, User } from '../_classes';
 import { Router } from '@angular/router';
 
@@ -28,7 +28,7 @@ export class TableComponent {
 
     // UI Variables
     selectedTask: Task;
-    userList: User[];
+    userList: LightUser[];
     currentDescription: string;
     currentStatus: string;
     currentAssignment: User;
@@ -51,7 +51,12 @@ export class TableComponent {
             if (projects.length == 0) {
                 this.currentProject = {
                     _id: '0',
-                    name: "No Project Selected"
+                    name: "No Project Selected",
+                    users: [{
+                        uid: localStorage.getItem('user'),
+                        uname: localStorage.getItem('name'),
+                        uemail: localStorage.getItem('email')
+                    }]
                 };
                 this.projectSelection = this.currentProject;
             } else {

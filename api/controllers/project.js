@@ -1,7 +1,8 @@
-var mongoose = require('mongoose');
-var Project  = mongoose.model('Project');
-var User     = mongoose.model('User');
-var Task     = mongoose.model('Task');
+var mongoose  = require('mongoose');
+var Project   = mongoose.model('Project');
+var User      = mongoose.model('User');
+var Task      = mongoose.model('Task');
+var LightUser = mongoose.model('LightUser');
 
 module.exports.getProjects = function(req, res) {
     if (!req.payload.exp) {
@@ -32,16 +33,19 @@ module.exports.postProject = function(req, res) {
             "message" : "UnauthorizedError: private data"
       });
     } else {
+        console.log(req.body)
         var proj = new Project();
-        proj._id = req.body._id;
-        proj.name = req.body.proj.name;
+        proj.name = req.body.name;
         proj.taskIDs = new Array();
         proj.users = new Array();
-        proj.users.push({
-            id: req.body.user._id,
-            name: req.body.user.name,
-            email: req.body.user.email
-        })
+
+        var user = new LightUser();
+        user.id = req.body.uid
+        user.name = req.body.uname,
+        user.email = req.body.uemail
+        proj.users.push(user)
+
+        console.log(proj)
         proj.createdBy = req.body.user;
         proj.save(function (err, savedProject) {
             res.status(200).json(savedProject);
