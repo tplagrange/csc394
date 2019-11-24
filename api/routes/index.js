@@ -24,6 +24,7 @@ router.get('/profile', auth, ctrlProfile.profileRead);
 router.post('/projects', auth, ctrlProjects.postProject);
 router.get('/projects/:userid', auth, ctrlProjects.getProjects);
 router.patch('/users/:userid', auth, ctrlUsers.patchUser);
+router.patch('/projects/:pid', auth, ctrlProjects.patchProject);
 
 // messages
 router.get('/chat/:pid', auth, ctrlProjects.getMessages);

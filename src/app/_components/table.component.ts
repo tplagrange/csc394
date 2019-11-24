@@ -99,13 +99,15 @@ export class TableComponent {
             _id: "null",
             assignedTo: {
                 _id: localStorage.getItem('user'),
-                name: localStorage.getItem('name')
+                name: localStorage.getItem('name'),
+                email: "",
             },
-            description: "none",
+            description: "New Task",
             status: "To-Do",
             reviewedBy: {
                 _id: localStorage.getItem('user'),
-                name: localStorage.getItem('name')
+                name: localStorage.getItem('name'),
+                email: "",
             },
             // this.dueDate = td.dueDate.toString();
             rating: "none",
@@ -113,21 +115,26 @@ export class TableComponent {
 
         this.tasks.unshift(nt);
         this.selectedTask = nt;
+        this.currentAssignment = nt.assignedTo;
         this.currentDescription = nt.description;
+        this.currentStatus = nt.status;
 
         // Add a task to the Project tasks via api
         this.auth.postTask(new ProjectPackage(this.currentProject, localStorage.getItem('user'))).subscribe(task => {
             this.selectedTask._id = task._id;
             this.selectedTask.assignedTo = task.assignedTo;
+            this.f_firstPanel = false;
+            this.f_secondPanel = true;
         }, (err) =>  {
             console.error(err);
         });
 
-        this.f_firstPanel = false;
-        this.f_secondPanel = true;
-
-        // Somehow go to edit task for this task
     }
+
+    editProject() {
+        this.router.navigateByUrl('/pedit');
+    }
+
     editTask(task: Task) {
         this.selectedTask = JSON.parse(JSON.stringify(task));
         this.currentAssignment = task.assignedTo;
@@ -145,16 +152,24 @@ export class TableComponent {
 
     finishEdit() {
         console.log(this.currentAssignment);
-        this.selectedTask.assignedTo = this.currentAssignment;
+        var tmpUser = new User({
+            uid: this.currentAssignment._id,
+            uname: this.currentAssignment.name,
+            uemail: ""
+        })
+        this.selectedTask.assignedTo = tmpUser;
         this.selectedTask.status = this.currentStatus;
         this.selectedTask.description = this.currentDescription;
 
         this.updateTask();
 
-        this.f_firstPanel = true;
-        this.f_secondPanel = false;
+        console.log(this.selectedTask);
+
         const index = this.findIndexofTask();
         this.tasks[index] = this.selectedTask;
+
+        this.f_firstPanel = true;
+        this.f_secondPanel = false;
     }
 
     findIndexofTask(): number {
@@ -197,6 +212,10 @@ export class TableComponent {
     createProject() {
         // Redirect to the project creation page
         this.router.navigateByUrl('/project');
+    }
+
+    updateCurrentAssignment(user: User) {
+        this.currentAssignment = JSON.parse(JSON.stringify(user));
     }
 
     updateSelection(selection: Project) {

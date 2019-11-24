@@ -51,7 +51,7 @@ export class ChatComponent {
       text: event.message,
       date: new Date(),
       user: {
-        name: localStorage.getItem('email'),
+        name: localStorage.getItem('name'),
       },
     };
 

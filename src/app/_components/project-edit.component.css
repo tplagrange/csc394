@@ -1,0 +1,12 @@
+.back-button {
+    position: relative;
+    top: 8px;
+    left: 16px;
+}
+
+.project-edit-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: auto;
+}

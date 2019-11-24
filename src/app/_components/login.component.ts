@@ -17,8 +17,8 @@ export class LoginComponent {
   }
 
   login() {
+    localStorage.setItem('email', this.credentials.email);
     this.auth.login(this.credentials).subscribe(() => {
-        localStorage.setItem('email', this.credentials.email);
         this.router.navigateByUrl('/profile');
     }, (err) => {
       console.error(err);

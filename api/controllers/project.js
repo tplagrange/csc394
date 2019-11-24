@@ -33,7 +33,6 @@ module.exports.postProject = function(req, res) {
             "message" : "UnauthorizedError: private data"
       });
     } else {
-        console.log(req.body)
         var proj = new Project();
         proj.name = req.body.name;
         proj.taskIDs = new Array();
@@ -45,7 +44,6 @@ module.exports.postProject = function(req, res) {
         user.email = req.body.uemail
         proj.users.push(user)
 
-        console.log(proj)
         proj.createdBy = req.body.user;
         proj.save(function (err, savedProject) {
             res.status(200).json(savedProject);
@@ -116,5 +114,56 @@ module.exports.postTask = function(req, res) {
                         if (err) return console.error(err);
                     });
                 })
+    }
+}
+
+module.exports.patchProject = function(req, res) {
+    if (!req.payload.exp) {
+        res.status(401).json({
+            "message" : "UnauthorizedError: private data"
+        });
+    } else {
+        User.findOne({ email: req.body.uemail })
+            .lean()
+            .exec(function(err, user) {
+                Project
+                    .findById(req.params.pid)
+                    .exec(function(err, project) {
+
+                        var lu = new LightUser();
+                        lu.id = user._id;
+                        lu.name = user.name;
+                        lu.email = user.email;
+
+                        // See if the user is already a member of the project
+                        for (var userItem of project.users) {
+                            if (userItem.email == lu.email) {
+                                res.status(200).json({
+                                    status: "User already exists",
+                                })
+                                return;
+                            }
+                        }
+
+                        // Update the project document
+                        project.users.push(lu)
+                        project.save();
+                        res.status(200).json(user);
+
+                        // Update the User
+                        User.findById(user._id)
+                            .exec(function(err, userDoc) {
+                                userDoc.projects.push(req.params.pid);
+                                userDoc.save();
+                                if (err) {
+                                    console.error(err)
+                                }
+                            });
+
+                        if (err) {
+                            console.error(err);
+                        }
+                    });
+            });
     }
 }

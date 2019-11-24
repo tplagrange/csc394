@@ -226,6 +226,12 @@ export class AuthenticationService {
       return request;
   }
 
+  public patchProject(user: LightUser, projectid: string): Observable<any> {
+      let base = this.http.patch(`/api/projects/${projectid}`, user, { headers: { Authorization: `Bearer ${this.getToken()}` }});
+      const request = base.pipe();
+      return request;
+  }
+
   // User Operations
 
   public patchUser(project: any, userid: string): Observable<any> {

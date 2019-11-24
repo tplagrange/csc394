@@ -9,6 +9,7 @@
                 <mat-option (click)='createProject()'>Create New Project</mat-option>
               </mat-select>
             </mat-form-field>
+            <button mat-raised-button color="primary" [disabled]="noProjects" (click)="editProject()" style="margin: 10px">Edit Project</button>
             <button mat-raised-button color="primary" [disabled]="noProjects" (click)="addTask()" style="margin: 10px">Add Task</button>
 		</mat-expansion-panel-header>
 		<table mat-table [dataSource]="dsTasks" class="mat-elevation-z8">
@@ -60,8 +61,8 @@
 
     <!-- Set Assignment -->
     <mat-form-field>
-      <mat-select placeholder="Assign Task" [(value)]="currentAssignment">
-        <mat-option *ngFor="let user of userList" [value]="currentAssignment">{{user.name}}</mat-option>
+      <mat-select placeholder="Assign Task" [value]=currentAssignment>
+        <mat-option *ngFor="let user of userList" [(value)]="currentAssignment" (click)=updateCurrentAssignment(user)>{{user.name}}</mat-option>
       </mat-select>
     </mat-form-field>
 
