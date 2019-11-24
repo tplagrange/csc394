@@ -18,6 +18,11 @@ var userSchema = new mongoose.Schema({
       ref: 'UserMetrics',
       autopopulate: true
   },
+  projects: [ {
+      type: mongoose.Schema.Types.ObjectID,
+      ref: 'Project',
+      autopopulate: true
+  }],
   hash: String,
   salt: String
 });
@@ -43,5 +48,7 @@ userSchema.methods.generateJwt = function() {
     exp: parseInt(expiry.getTime() / 1000),
   }, process.env.DB_SECRET); // Secret is only known by server - set one for your machine for local development
 };
+
+userSchema.plugin(require('mongoose-autopopulate'));
 
 mongoose.model('User', userSchema);

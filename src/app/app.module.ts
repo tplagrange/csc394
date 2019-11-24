@@ -32,6 +32,8 @@ import { HomeComponent } from './_components';
 import { ChatComponent } from './_components';
 import { TableComponent } from './_components';
 import { MyLineChartComponent } from './_components';
+import { ProjectComponent } from './_components';
+import { EditProjectComponent } from './_components';
 
 // Services
 import { AuthenticationService } from './_services';
@@ -43,7 +45,9 @@ const routes: Routes = [
   { path: '', component: HomeComponent, canActivate:[AuthGuardService]},
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'profile', component: ProfileComponent, canActivate: [AuthGuardService] }
+  { path: 'profile', component: ProfileComponent, canActivate: [AuthGuardService] },
+  { path: 'project', component: ProjectComponent },
+  { path: 'pedit', component: EditProjectComponent }
 ];
 
 @NgModule({
@@ -57,6 +61,8 @@ const routes: Routes = [
     HomeComponent,
     TableComponent,
     MyLineChartComponent,
+    ProjectComponent,
+    EditProjectComponent,
   ],
   imports: [
     BrowserModule,

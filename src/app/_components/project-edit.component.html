@@ -1,0 +1,29 @@
+<div class="project-edit-container">
+
+    <div class="back-button">
+        <button mat-raised-button color="primary" style="margin: 30px" (click)="back()">Back</button>
+    </div>
+
+    <div class="project-edit-form-container">
+        <h2>Edit Project</h2>
+        <br>
+        <br>
+        <br>
+
+        <!-- <h4>Chage Project Name</h4>
+            <mat-form-field>
+                <input matInput placeholder="Project Name" [(ngModel)]="projectName">
+            </mat-form-field>
+            <button mat-raised-button color="primary" style="margin: 30px" (click)="changeName()">Apply</button> -->
+
+        <h4>Add User by Email</h4>
+            <mat-form-field>
+            <input matInput placeholder="Enter your email" [(ngModel)]=userEmail>
+            </mat-form-field>
+            <button mat-raised-button color="primary" style="margin: 30px" (click)="addUser()">Add User</button>
+
+        <!-- <h4>Delete Project</h4>
+            <button mat-raised-button color="red" style="margin: 30px" (click)="deleteProject()">Delete</button> -->
+    </div>
+
+</div>

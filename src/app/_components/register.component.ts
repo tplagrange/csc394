@@ -17,6 +17,7 @@ export class RegisterComponent {
   constructor(private auth: AuthenticationService, private router: Router) {}
 
   register() {
+    this.credentials.email.toLowerCase();
     this.auth.register(this.credentials).subscribe(() => {
       this.router.navigateByUrl('/profile');
     }, (err) => {

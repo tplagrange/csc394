@@ -1,8 +1,16 @@
 <div class="table-container">
 <mat-accordion>
-	<mat-expansion-panel [expanded]='f_firstPanel' [disabled]='!f_firstPanel'>
-		<mat-expansion-panel-header>
-			<mat-panel-title>Tasks</mat-panel-title>
+	<mat-expansion-panel [expanded]='f_firstPanel' [disabled]='!f_firstPanel' hideToggle=true>
+		<mat-expansion-panel-header style="margin: 10px">
+			<mat-panel-title style="margin: 10px">Tasks</mat-panel-title>
+            <mat-form-field>
+              <mat-select placeholder="Select a Project" [(ngModel)]="projectSelection">
+                <mat-option *ngFor="let project of projectList" [value]="projectSelection" (click)='updateSelection(project)'>{{project.name}}</mat-option>
+                <mat-option (click)='createProject()'>Create New Project</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <button mat-raised-button color="primary" [disabled]="noProjects" (click)="editProject()" style="margin: 10px">Edit Project</button>
+            <button mat-raised-button color="primary" [disabled]="noProjects" (click)="addTask()" style="margin: 10px">Add Task</button>
 		</mat-expansion-panel-header>
 		<table mat-table [dataSource]="dsTasks" class="mat-elevation-z8">
 			<ng-container matColumnDef="assignedTo">
@@ -51,6 +59,13 @@
 			<mat-panel-title>Editing the Task</mat-panel-title>
 	</mat-expansion-panel-header>
 
+    <!-- Set Assignment -->
+    <mat-form-field>
+      <mat-select placeholder="Assign Task" [value]=currentAssignment>
+        <mat-option *ngFor="let user of userList" [(value)]="currentAssignment" (click)=updateCurrentAssignment(user)>{{user.name}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
     <!-- Set Description -->
     <mat-form-field class="text-full-width">
         <textarea matInput
@@ -59,7 +74,16 @@
         </textarea>
     </mat-form-field>
 
-<button mat-raised-button (click)="setDescription()" style="margin: 10px">Set Description</button>
+    <!-- Set Status -->
+    <mat-form-field>
+      <mat-select placeholder="Task Status" [(value)]="currentStatus">
+          <mat-option value="To-Do">To-Do</mat-option>
+          <mat-option value="In Progress">In Progress</mat-option>
+          <mat-option value="Complete">Complete</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+
 <br>
 <br>
 <div style="margin: auto">
