@@ -14,6 +14,8 @@ module.exports.getProjects = function(req, res) {
       // Get the user with the id needed
       var userToUpdate = User
             .findById(req.params.userid)
+            .lean()
+            .populate('projects')
             .exec( function(err, user) {
                 if (!user) {
                     res.status(404).json("No user found");
@@ -31,7 +33,7 @@ module.exports.postProject = function(req, res) {
       });
     } else {
         var proj = new Project();
-        proj._id = mongoose.Types.ObjectId();
+        proj._id = req.body._id;
         proj.name = req.body.proj.name;
         proj.taskIDs = new Array();
         proj.createdBy = req.body.user;
@@ -51,7 +53,11 @@ module.exports.getMessages = function(req, res) {
       var project = Project
             .findById(req.params.pid)
             .lean()
+            .populate('messages')
             .exec( (err, project) => {
+                if (err) {
+                    res.status(500).json(err)
+                }
                 res.status(200).json(project.messages);
             })
     }
@@ -91,13 +97,13 @@ module.exports.postTask = function(req, res) {
             if (err) {
                 console.error(err);
             }
+            res.status(200).json(savedTask);
         });
         var projectToUpdate = Project
                 .findById(req.body.proj._id)
                 .exec(function(err, project) {
                     project.taskIDs.unshift(nt._id);
                     project.save(function (err, savedProject) {
-                        res.status(200).json(savedProject);
                         if (err) return console.error(err);
                     });
                 })

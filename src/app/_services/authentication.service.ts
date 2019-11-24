@@ -54,7 +54,10 @@ export interface ProjectDetails {
 }
 
 export class ProjectPackage {
-    proj: Project;
+    proj: {
+        _id: string,
+
+    }
     user: string;
 
     constructor(project: Project, userID: string) {
@@ -211,8 +214,16 @@ export class AuthenticationService {
       return request;
   }
 
+  // User Operations
+
   public patchUser(project: any, userid: string): Observable<any> {
       let base = this.http.patch(`/api/users/${userid}`, project, { headers: { Authorization: `Bearer ${this.getToken()}` }});
+      const request = base.pipe();
+      return request;
+  }
+
+  public getUser(userid: any): Observable<any> {
+      let base = this.http.get(`/api/users/${userid}`, { headers: { Authorization: `Bearer ${this.getToken()}` }});
       const request = base.pipe();
       return request;
   }

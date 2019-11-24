@@ -30,11 +30,14 @@ router.get('/chat/:pid', auth, ctrlProjects.getMessages);
 router.patch('/chat/:pid', auth, ctrlProjects.patchMessages);
 
 // task
-router.patch('/tasks/:id', auth, ctrlTasks.patchDescription);
+router.patch('/tasks/:id', auth, ctrlTasks.patchTask);
 
 // tasks
 router.get('/tasks/project/:pid', auth, ctrlTasks.getTasks);
-router.post('/projects/tasks', auth, ctrlProjects.postTask)
+router.post('/projects/tasks', auth, ctrlProjects.postTask);
+
+// user
+router.get('/users/:userid', auth, ctrlUsers.getUser);
 
 // metrics
 router.get('/metrics/user/:_id', auth, ctrlMetrics.getUserMetrics);

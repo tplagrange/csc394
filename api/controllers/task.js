@@ -10,6 +10,8 @@ module.exports.getTasks = function(req, res) {
     } else {
         var projectToPull = Project
                 .findById(req.params.pid)
+                .lean()
+                .populate('taskIDs')
                 .exec(function(err, project) {
                     if (err) {
                         console.error(err)
@@ -20,14 +22,12 @@ module.exports.getTasks = function(req, res) {
     }
 };
 
-module.exports.patchDescription = function(req, res) {
+module.exports.patchTask = function(req, res) {
     if (!req.payload.exp) {
       res.status(401).json({
         "message" : "UnauthorizedError: private data"
       });
     } else {
-        console.log("Inside patch description")
-        console.log(req.params.id)
         var taskToUpdate = Task
                 .findById(req.params.id)
                 .exec(function(err, task) {
@@ -35,7 +35,6 @@ module.exports.patchDescription = function(req, res) {
                         res.status(500).json(err);
                         return;
                     }
-                    console.log("inside exec...")
                     task.description = req.body.description
                     task.save()
                     res.status(200).json(task);

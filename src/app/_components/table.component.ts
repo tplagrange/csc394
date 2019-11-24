@@ -20,6 +20,7 @@ export class TableComponent {
     projectList: Project[];
     currentProject: Project;
     projectSelection: Project;
+    projectExists: boolean;
 
     // DataSource and Column names for table
     dsTasks: MatTableDataSource<Task>;
@@ -37,6 +38,7 @@ export class TableComponent {
         this.dsTasks = new MatTableDataSource<Task>();
         this.tasks = new Array();
         this.projectList = new Array();
+        this.projectExists = true;
     }
 
     ngOnInit() {
@@ -49,6 +51,7 @@ export class TableComponent {
                 };
                 this.projectSelection = this.currentProject;
             } else {
+                this.projectExists = false;
                 for (let project of projects) {
                     this.projectList.push(new Project(project));
                 }
@@ -68,6 +71,7 @@ export class TableComponent {
                 this.f_firstPanel = true;
                 this.updateTableTasks();
             }
+
         });
 
 
@@ -82,7 +86,7 @@ export class TableComponent {
     addTask() {
         // Immediately add this task to the table for viewing
         var nt = new Task({
-            _id: 'undefined',
+            _id: "null",
             assignedTo: {
                 _id: localStorage.getItem('user'),
                 name: localStorage.getItem('name')
@@ -103,8 +107,8 @@ export class TableComponent {
 
         // Add a task to the Project tasks via api
         this.auth.postTask(new ProjectPackage(this.currentProject, localStorage.getItem('user'))).subscribe(task => {
-            console.log("got it")
             this.selectedTask._id = task._id;
+            this.selectedTask.assignedTo = task.assignedTo;
         }, (err) =>  {
             console.error(err);
         });
@@ -144,8 +148,15 @@ export class TableComponent {
 
     updateTableTasks() {
         this.dsTasks.data = this.tasks;
-        //console.log(this.dsTasks);
-        //console.log(this.dsTasks.data);
+        for (let task of this.dsTasks.data) {
+            var param = "";
+            if (typeof task.assignedTo != 'string') {
+                param = task.assignedTo.name;
+            }
+            this.auth.getUser(task.assignedTo).subscribe(user => {
+                task.assignedTo = user
+            });
+        }
     }
 
     pullTasks() {
@@ -177,26 +188,26 @@ export class TableComponent {
         this.f_firstPanel = true;
     }
 
-    setDescription() {
-        var nt = new Task({
-            _id: this.selectedTask._id,
-            assignedTo: {
-                _id: this.selectedTask.assignedTo._id,
-                name: this.selectedTask.assignedTo.name
-            },
-            description: this.currentDescription,
-            status: "To-Do",
-            reviewedBy: {
-                _id: localStorage.getItem('user'),
-                name: localStorage.getItem('name')
-            },
-            // this.dueDate = td.dueDate.toString();
-            rating: "none",
-        });
+    updateTask() {
+        // var nt = new Task({
+        //     _id: this.selectedTask._id,
+        //     assignedTo: {
+        //         _id: this.selectedTask.assignedTo._id,
+        //         name: this.selectedTask.assignedTo.name
+        //     },
+        //     description: this.currentDescription,
+        //     status: "To-Do",
+        //     reviewedBy: {
+        //         _id: localStorage.getItem('user'),
+        //         name: localStorage.getItem('name')
+        //     },
+        //     // this.dueDate = td.dueDate.toString();
+        //     rating: "none",
+        // });
 
         this.selectedTask.description = this.currentDescription;
 
-        this.auth.patchTask(nt).subscribe(updatedTask => {
+        this.auth.patchTask(this.selectedTask).subscribe(updatedTask => {
             console.log("Updated task to " + JSON.stringify(updatedTask));
         }, (err) => {
             console.error(err);
