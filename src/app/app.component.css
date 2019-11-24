@@ -1,11 +1,19 @@
+@import '@angular/material/prebuilt-themes/deeppurple-amber.css';
 
 
-.bg {
-  /* background-image: url("../assets/images/background1.jpg");
-  min-width: 100px;
-  width: 100%;
-  height: 100vh;
-  background-size:cover;
-  background-position:center; */
-  background-color: white
+li a:hover {
+  background-color: #5F8DC6;
+}
+
+div{
+   list-style-type: none;
+
+   padding: 0;
+   overflow: hidden;
+   background-color: lightblue;
+
+}
+
+li a{
+    color: white;
 }
