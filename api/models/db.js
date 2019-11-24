@@ -16,7 +16,6 @@ mongoose.connect(dbURI, { useNewUrlParser: true });
 // CONNECTION EVENTS
 mongoose.connection.on('connected', function() {
   console.log('Mongoose connected to ' + dbURI);
-
 });
 mongoose.connection.on('error', function(err) {
   console.log('Mongoose connection error: ' + err);
@@ -56,6 +55,7 @@ process.on('SIGTERM', function() {
 require('./users');
 require('./tasks');
 require('./userMetrics');
+require('./projects');
 
 // Create mock values
 var mocks = require('../mock/index');
