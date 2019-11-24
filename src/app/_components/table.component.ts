@@ -28,6 +28,7 @@ export class TableComponent {
 
     // UI Variables
     selectedTask: Task;
+    userList: User[];
     currentDescription: string;
     currentStatus: string;
     currentAssignment: User;
@@ -40,6 +41,7 @@ export class TableComponent {
         this.dsTasks = new MatTableDataSource<Task>();
         this.tasks = new Array();
         this.projectList = new Array();
+        this.userList = new Array();
         this.projectExists = true;
     }
 

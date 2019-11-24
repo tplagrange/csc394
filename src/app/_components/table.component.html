@@ -59,6 +59,11 @@
 	</mat-expansion-panel-header>
 
     <!-- Set Assignment -->
+    <mat-form-field>
+      <mat-select placeholder="Assign this task" [(ngModel)]="currentAssignment">
+        <mat-option *ngFor="let user of userList" [value]="currentAssignment">{{user.name}}</mat-option>
+      </mat-select>
+    </mat-form-field>
 
     <!-- Set Description -->
     <mat-form-field class="text-full-width">
