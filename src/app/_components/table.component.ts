@@ -43,7 +43,6 @@ export class TableComponent {
         // projectList needs to come from the api; this will be all the projects the user has access to
         this.auth.projects(localStorage.getItem('user')).subscribe(projects => {
             if (projects.length == 0) {
-                console.log("Baking projects");
                 this.currentProject = {
                     _id: '0',
                     name: "No Project Selected"
@@ -83,26 +82,36 @@ export class TableComponent {
     addTask() {
         // Immediately add this task to the table for viewing
         var nt = new Task({
-            _id: 0,
-            assignedTo: this.tasks[0].assignedTo,
+            _id: 'undefined',
+            assignedTo: {
+                _id: localStorage.getItem('user'),
+                name: localStorage.getItem('name')
+            },
             description: "none",
             status: "To-Do",
-            reviewedBy: this.tasks[0].reviewedBy,
+            reviewedBy: {
+                _id: localStorage.getItem('user'),
+                name: localStorage.getItem('name')
+            },
             // this.dueDate = td.dueDate.toString();
             rating: "none",
         });
+
         this.tasks.unshift(nt);
-        this.selectedTask = this.tasks[0];
-        this.f_firstPanel = false;
-        this.f_secondPanel = true;
-        this.updateTableTasks();
+        this.selectedTask = nt;
+        this.currentDescription = nt.description;
 
         // Add a task to the Project tasks via api
         this.auth.postTask(new ProjectPackage(this.currentProject, localStorage.getItem('user'))).subscribe(task => {
-            console.log(task);
+            console.log("got it")
+            this.selectedTask._id = task._id;
         }, (err) =>  {
             console.error(err);
         });
+
+        this.f_firstPanel = false;
+        this.f_secondPanel = true;
+
         // Somehow go to edit task for this task
     }
     editTask(task: Task) {
@@ -169,9 +178,25 @@ export class TableComponent {
     }
 
     setDescription() {
-        console.log("Setting Description")
+        var nt = new Task({
+            _id: this.selectedTask._id,
+            assignedTo: {
+                _id: this.selectedTask.assignedTo._id,
+                name: this.selectedTask.assignedTo.name
+            },
+            description: this.currentDescription,
+            status: "To-Do",
+            reviewedBy: {
+                _id: localStorage.getItem('user'),
+                name: localStorage.getItem('name')
+            },
+            // this.dueDate = td.dueDate.toString();
+            rating: "none",
+        });
+
         this.selectedTask.description = this.currentDescription;
-        this.auth.setTaskDescription(this.selectedTask).subscribe(updatedTask => {
+
+        this.auth.patchTask(nt).subscribe(updatedTask => {
             console.log("Updated task to " + JSON.stringify(updatedTask));
         }, (err) => {
             console.error(err);

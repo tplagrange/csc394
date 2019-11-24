@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 import { Project, Message, Task, User } from '../_classes'
 
 export interface UserDetails {
-    _id: number;
+    _id: string;
     email: string;
     name: string;
     exp: number;
@@ -15,7 +15,7 @@ export interface UserDetails {
 }
 
 export interface TaskDetails {
-    _id: number;
+    _id: string;
     assignedTo: User;
     description: string;
     status: string;
@@ -182,7 +182,7 @@ export class AuthenticationService {
         return request;
     }
 
-  public setTaskDescription(task: Task): Observable<any> {
+  public patchTask(task: Task): Observable<any> {
       var taskDetail = {
           '_id': task._id,
           'assignedTo': task.assignedTo,
@@ -193,7 +193,7 @@ export class AuthenticationService {
           'rating': task.rating
       }
 
-      let base = this.http.patch(`/api/task/${task._id}`, taskDetail, { headers: { Authorization: `Bearer ${this.getToken()}` }});
+      let base = this.http.patch(`/api/tasks/${task._id}`, taskDetail, { headers: { Authorization: `Bearer ${this.getToken()}` }});
       const request = base.pipe();
       return request;
   }

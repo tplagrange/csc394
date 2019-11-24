@@ -26,7 +26,7 @@ export class ChatComponent {
           }
       })
 
-      this.intervalId = setInterval(() => {this.loadMessages();}, 5000);
+      this.intervalId = setInterval(() => {this.loadMessages();}, 1000);
 
     }
 
@@ -39,7 +39,7 @@ export class ChatComponent {
           return
       } else {
           this.auth.getMessages(localStorage.getItem('project')).subscribe(messages => {
-              if (this.messages.length != messages.length) {
+              if (this.messages.length != messages.length || this.messages.length > 0 && this.messages[0].user.name == "System") {
                   this.messages = messages;
               }
           });

@@ -2,7 +2,7 @@ import { UserDetails } from "../_services/"
 
 
 export class User {
-  _id: number;
+  _id: string;
   name: string;
 
   constructor(ud:UserDetails) {

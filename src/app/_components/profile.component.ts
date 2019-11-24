@@ -13,6 +13,7 @@ export class ProfileComponent {
     this.auth.profile().subscribe(user => {
       this.details = user;
       localStorage.setItem('user', user._id);
+      localStorage.setItem('name', user.name)
     }, (err) => {
       console.error(err);
     });

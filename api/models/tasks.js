@@ -27,7 +27,6 @@ taskSchema.methods.setAssignment = function(userID) {
 
 taskSchema.methods.setDescription = function(description) {
     this.description = description
-
 }
 
 taskSchema.methods.setStatus = function(status) {

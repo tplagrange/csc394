@@ -26,13 +26,19 @@ module.exports.patchDescription = function(req, res) {
         "message" : "UnauthorizedError: private data"
       });
     } else {
+        console.log("Inside patch description")
+        console.log(req.params.id)
         var taskToUpdate = Task
                 .findById(req.params.id)
                 .exec(function(err, task) {
+                    if (err) {
+                        res.status(500).json(err);
+                        return;
+                    }
+                    console.log("inside exec...")
                     task.description = req.body.description
                     task.save()
                     res.status(200).json(task);
-                    //To-Do add error handler
         });
     }
 }
