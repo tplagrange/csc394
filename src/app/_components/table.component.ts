@@ -144,7 +144,7 @@ export class TableComponent {
     }
 
     finishEdit() {
-        // this.selectedTask.assignedTo = this.currentAssignment;
+        this.selectedTask.assignedTo = this.currentAssignment;
         this.selectedTask.status = this.currentStatus;
         this.selectedTask.description = this.currentDescription;
 
