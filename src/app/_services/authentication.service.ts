@@ -279,6 +279,7 @@ export class AuthenticationService {
 
   public logout(): void {
     this.token = '';
+    window.localStorage.clear()
     window.localStorage.removeItem('mean-token');
     this.router.navigateByUrl('/');
   }
