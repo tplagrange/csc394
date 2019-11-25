@@ -13,11 +13,6 @@ var userSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  metrics: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'UserMetrics',
-      autopopulate: true
-  },
   projects: [ {
       type: mongoose.Schema.Types.ObjectID,
       ref: 'Project',

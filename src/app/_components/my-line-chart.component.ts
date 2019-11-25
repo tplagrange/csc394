@@ -6,6 +6,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { AuthenticationService, TaskDetails } from '../_services';
 import { Task } from '../_classes';
 import { NgChartjsModule, NgChartjsDirective } from 'ng-chartjs';
+import { interval, Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-my-line-chart',
@@ -15,7 +16,55 @@ import { NgChartjsModule, NgChartjsDirective } from 'ng-chartjs';
 
 export class MyLineChartComponent implements OnInit {
 
-    projectTasks: Task[];
+    // Project Data for Line Chart
+    projectToDo: number;
+    projectInProgress: number;
+    projectComplete: number;
+
+    // Project Data for User Pie Chart
+    userToDo: number;
+    userInProgress: number;
+    userComplete: number;
+
+    // Current Project Info
+    currentProjectId: string;
+    projectName: string;
+
+    subscription: Subscription;
+    intervalId: number;
+
+    constructor(private auth: AuthenticationService) {}
+
+    ngOnInit() {
+        this.intervalId = setInterval(() => {this.pullData();}, 2500);
+    }
+
+    ngOnDestroy() {
+        clearInterval(this.intervalId);
+    }
+
+    pullData() {
+        // Project Data Logic
+        if (!localStorage.getItem('project')) {
+            return;
+        } else if (this.currentProjectId == localStorage.getItem('project')) {
+            return;
+        } else {
+            this.currentProjectId = localStorage.getItem('project');
+            this.auth.getMetrics(this.currentProjectId).subscribe(project => {
+                // project variable holds the current project POJO
+                this.projectName       = project.name;
+                this.projectToDo       = project.metrics.tasksOpened;
+                this.projectInProgress = project.metrics.tasksActive;
+                this.projectComplete   = project.metrics.tasksClosed;
+            });
+        }
+        // this.auth.getUserMetrics(localStorage.getItem('user')).subscribe(user => {
+        //     this.userToDo       = user.metrics.tasksOpened;
+        //     this.userInProgress = user.metrics.tasksActive;
+        //     this.userComplete   = user.metrics.tasksClosed;
+        // });
+    }
 
     lineChartData: Array<any> = [
         {
@@ -38,7 +87,7 @@ export class MyLineChartComponent implements OnInit {
             pointHoverBorderWidth: 2,
             pointRadius: 1,
             pointHitRadius: 10,
-            data: [7, 2, 9]
+            data: [this.projectToDo]
         },
         {
             label: "In-Progress",
@@ -60,7 +109,7 @@ export class MyLineChartComponent implements OnInit {
             pointHoverBorderWidth: 2,
             pointRadius: 1,
             pointHitRadius: 10,
-            data: [3, 1, 4]
+            data: [this.projectInProgress]
         },
         {
             label: "Complete",
@@ -82,27 +131,12 @@ export class MyLineChartComponent implements OnInit {
             pointHoverBorderWidth: 2,
             pointRadius: 1,
             pointHitRadius: 10,
-            data: [5, 3, 2]
+            data: [this.projectComplete]
         }
     ];
-             //this is a number[] and should be the number of tasks created, marked complete, and pending
-             //we can do this based on the overall course of the project
-              //[0]: complete \\ [1]: in progress  \\ [2]: blocked \\ [3]: in queue
-            //labels: ['Bill', 'Bob', 'Todd'],
 
+    lineChartLabels: Array<any> = [this.projectName];
 
-    addData(thing: Task[]) {///Didn't have the time to test really, but I think you will want to go through the array of Tasks and for each task you will push parts of its data into the
-                            /// logical data location. EX: lineChartData[0] == complete tasks so you would push this.auth.Task.completed for [0] then task.in-progress to [1]
-        for (var x = 0; x < thing.length; x++) {
-            this.lineChartData[0]["data"].push(thing[x]._id);
-            this.lineChartData[1]
-            this.lineChartData[2]
-            this.lineChartData[3]
-            }
-    };
-
-
-    lineChartLabels: Array<any> = ['Bill', 'Bob', 'Todd']; //, 'Robert', 'Roger', 'Bobert', 'Phillipe'];
     lineChartOptions: any = {
         responsive: true,
         horizontalLine: [{
@@ -117,6 +151,7 @@ export class MyLineChartComponent implements OnInit {
             text: 'min'
         }]
     };
+
     lineChartGlobalPlugin = {
         responsive: true,
         annotation: {
@@ -193,26 +228,4 @@ export class MyLineChartComponent implements OnInit {
 
     public lineChartLegend = true;
     public lineChartType = 'bar';
-
-
-    constructor(private auth: AuthenticationService) {
-        this.projectTasks = new Array();
-    }
-
-
-    ngOnInit() {
-        this.pullProjects();
-    }
-
-    pullProjects() {
-        this.auth.projects
-    }
-
-    updateGraphTasks() {
-        //console.log(this.lineChartData[0].indexOf("data"));
-        //this.lineChartLabels = [...this.lineChartLabels];
-        //this.lineChartData[16] = this.tasks.map(x => x._id).slice(0,4);
-        //console.log(this.lineChartData["data"].map((x: any) => x));
-        //console.log(this.tasks.map(x => x._id));
-    }
 }

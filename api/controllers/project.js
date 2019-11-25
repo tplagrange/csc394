@@ -169,16 +169,19 @@ module.exports.patchProject = function(req, res) {
 }
 
 module.exports.getMetrics = function(req, req) {
+    console.log("yo")
     if (!req.payload.exp) {
         res.status(401).json({
             "message" : "UnauthorizedError: private data"
         });
     } else {
-        Project
-            .findById(req.params.pid)
-            .lean()
-            .exec(function(err, project) {
-                res.status(200).json(project);
-            });
+        console.log("Going for metrics")
+        var proj = Project
+                        .findById(req.params.pid)
+                        .lean()
+                        .exec(function(err, project) {
+                            console.log(project)
+                            res.status(200).json(project);
+                        });
     }
 }

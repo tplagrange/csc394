@@ -41,5 +41,6 @@ router.get('/users/:userid', auth, ctrlUsers.getUser);
 
 // metrics
 router.get('/metrics/:pid', auth, ctrlProjects.getMetrics);
+// router.get('/metrics/user/:uid', auth, ctrlUsers.getMetrics);
 
 module.exports = router;
