@@ -26,7 +26,7 @@ export class ChatComponent {
           }
       })
 
-      this.intervalId = setInterval(() => {this.loadMessages();}, 2500);
+      this.intervalId = setInterval(() => {this.loadMessages();}, 1500);
 
     }
 

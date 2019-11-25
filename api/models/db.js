@@ -54,6 +54,4 @@ process.on('SIGTERM', function() {
 // BRING IN YOUR SCHEMAS & MODELS
 require('./users');
 require('./tasks');
-require('./userMetrics');
 require('./projects');
-
