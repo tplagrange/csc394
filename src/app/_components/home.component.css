@@ -7,6 +7,10 @@
     z-index: 100;
 }
 
+.app-container {
+    min-width: 1140px;
+}
+
 #metrics {
     max-height: 35%;
     margin-top: 5%;
