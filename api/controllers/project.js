@@ -168,8 +168,7 @@ module.exports.patchProject = function(req, res) {
     }
 }
 
-module.exports.getMetrics = function(req, req) {
-    console.log("yo")
+module.exports.getMetrics = function(req, res) {
     if (!req.payload.exp) {
         res.status(401).json({
             "message" : "UnauthorizedError: private data"
