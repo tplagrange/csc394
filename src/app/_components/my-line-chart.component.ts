@@ -16,27 +16,20 @@ import { interval, Subscription } from 'rxjs';
 
 export class MyLineChartComponent implements OnInit {
 
-    // Project Data for Line Chart
-    projectToDo: number;
-    projectInProgress: number;
-    projectComplete: number;
-
-    // Project Data for User Pie Chart
-    userToDo: number;
-    userInProgress: number;
-    userComplete: number;
-
     // Current Project Info
     currentProjectId: string;
-    projectName: string;
 
     subscription: Subscription;
     intervalId: number;
 
-    constructor(private auth: AuthenticationService) {}
+    constructor(private auth: AuthenticationService) {
+        this.lineChartLabels = new Array();
+    }
 
     ngOnInit() {
-        this.intervalId = setInterval(() => {this.pullData();}, 2500);
+        this.lineChartLabels.push("Loading...");
+        this.pullData();
+        this.intervalId = setInterval(() => {this.pullData();}, 5000);
     }
 
     ngOnDestroy() {
@@ -47,16 +40,14 @@ export class MyLineChartComponent implements OnInit {
         // Project Data Logic
         if (!localStorage.getItem('project')) {
             return;
-        } else if (this.currentProjectId == localStorage.getItem('project')) {
-            return;
         } else {
             this.currentProjectId = localStorage.getItem('project');
             this.auth.getMetrics(this.currentProjectId).subscribe(project => {
                 // project variable holds the current project POJO
-                this.projectName       = project.name;
-                this.projectToDo       = project.metrics.tasksOpened;
-                this.projectInProgress = project.metrics.tasksActive;
-                this.projectComplete   = project.metrics.tasksClosed;
+                this.lineChartLabels[0]       = project.name;
+                this.lineChartData[0].data[0] = project.metrics.tasksOpened;
+                this.lineChartData[1].data[0] = project.metrics.tasksActive;
+                this.lineChartData[2].data[0] = project.metrics.tasksClosed;
             });
         }
         // this.auth.getUserMetrics(localStorage.getItem('user')).subscribe(user => {
@@ -87,7 +78,7 @@ export class MyLineChartComponent implements OnInit {
             pointHoverBorderWidth: 2,
             pointRadius: 1,
             pointHitRadius: 10,
-            data: [this.projectToDo]
+            data: [ 0 ]
         },
         {
             label: "In-Progress",
@@ -109,7 +100,7 @@ export class MyLineChartComponent implements OnInit {
             pointHoverBorderWidth: 2,
             pointRadius: 1,
             pointHitRadius: 10,
-            data: [this.projectInProgress]
+            data: [ 0 ]
         },
         {
             label: "Complete",
@@ -131,11 +122,11 @@ export class MyLineChartComponent implements OnInit {
             pointHoverBorderWidth: 2,
             pointRadius: 1,
             pointHitRadius: 10,
-            data: [this.projectComplete]
+            data: [ 0 ]
         }
     ];
 
-    lineChartLabels: Array<any> = [this.projectName];
+    lineChartLabels: Array<string>;
 
     lineChartOptions: any = {
         responsive: true,
@@ -175,9 +166,9 @@ export class MyLineChartComponent implements OnInit {
         }
     };
 
-    public pieChartLabels: string[] = ['To-Do', 'In Progress', 'Complete'];
-    public pieChartData: number[] = [5, 3, 2]; //user-specific task data goes here
-    public pieChartType = 'pie';
+    pieChartLabels: string[] = ['To-Do', 'In Progress', 'Complete'];
+    pieChartData: number[] = [5, 3, 2]; //user-specific task data goes here
+    pieChartType = 'pie';
 
     pieColors = [
         {

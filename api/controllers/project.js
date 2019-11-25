@@ -37,6 +37,9 @@ module.exports.postProject = function(req, res) {
         proj.name = req.body.name;
         proj.taskIDs = new Array();
         proj.users = new Array();
+        proj.metrics.tasksOpened = 0;
+        proj.metrics.tasksActive = 0;
+        proj.metrics.tasksClosed = 0;
 
         var user = new LightUser();
         user.id = req.body.uid
@@ -110,6 +113,7 @@ module.exports.postTask = function(req, res) {
                 .findById(req.body._id)
                 .exec(function(err, project) {
                     project.taskIDs.unshift(nt._id);
+                    project.metrics.tasksOpened++;
                     project.save(function (err, savedProject) {
                         if (err) return console.error(err);
                     });
@@ -174,12 +178,10 @@ module.exports.getMetrics = function(req, res) {
             "message" : "UnauthorizedError: private data"
         });
     } else {
-        console.log("Going for metrics")
         var proj = Project
                         .findById(req.params.pid)
                         .lean()
                         .exec(function(err, project) {
-                            console.log(project)
                             res.status(200).json(project);
                         });
     }
