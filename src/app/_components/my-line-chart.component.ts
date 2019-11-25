@@ -7,9 +7,6 @@ import { AuthenticationService, TaskDetails } from '../_services';
 import { Task } from '../_classes';
 import { NgChartjsModule, NgChartjsDirective } from 'ng-chartjs';
 
-//import { Chart } from 'chart.js';
-
-
 @Component({
     selector: 'app-my-line-chart',
     templateUrl: './my-line-chart.component.html',
@@ -18,17 +15,12 @@ import { NgChartjsModule, NgChartjsDirective } from 'ng-chartjs';
 
 export class MyLineChartComponent implements OnInit {
 
-    //@ViewChild('Chart', { static: false }) public Chart: BaseChartDirective;
-    //public context: CanvasRenderingContext2D;
-    graphTasks: number[];
-    tasks: Task[];
-
-
+    projectTasks: Task[];
 
     lineChartData: Array<any> = [
         {
-            label: "Complete",
-            backgroundColor: "black",
+            label: "To-Do",
+            backgroundColor: "burlywood",
             fill: false,
             lineTension: 0.1,
             //backgroundColor: 'rgba(75,192,192,0.4)',
@@ -46,7 +38,7 @@ export class MyLineChartComponent implements OnInit {
             pointHoverBorderWidth: 2,
             pointRadius: 1,
             pointHitRadius: 10,
-            data: [5, 3, 2]
+            data: [7, 2, 9]
         },
         {
             label: "In-Progress",
@@ -71,8 +63,8 @@ export class MyLineChartComponent implements OnInit {
             data: [3, 1, 4]
         },
         {
-            label: "Blocked",
-            backgroundColor: "maroon",
+            label: "Complete",
+            backgroundColor: "black",
             fill: false,
             lineTension: 0.1,
             //backgroundColor: 'rgba(75,192,192,0.4)',
@@ -90,36 +82,14 @@ export class MyLineChartComponent implements OnInit {
             pointHoverBorderWidth: 2,
             pointRadius: 1,
             pointHitRadius: 10,
-            data: [2, 4, 4]
-        },
-        {
-            label: "In-Queue",
-            backgroundColor: "burlywood",
-            fill: false,
-            lineTension: 0.1,
-            //backgroundColor: 'rgba(75,192,192,0.4)',
-            borderColor: 'rgba(75,192,192,1)',
-            borderCapStyle: 'butt',
-            borderDash: [],
-            borderDashOffset: 0.0,
-            borderJoinStyle: 'miter',
-            pointBorderColor: 'rgba(75,192,192,1)',
-            pointBackgroundColor: '#fff',
-            pointBorderWidth: 1,
-            pointHoverRadius: 5,
-            pointHoverBackgroundColor: 'rgba(75,192,192,1)',
-            pointHoverBorderColor: 'rgba(220,220,220,1)',
-            pointHoverBorderWidth: 2,
-            pointRadius: 1,
-            pointHitRadius: 10,
-            data: [7, 2, 9]
+            data: [5, 3, 2]
         }
     ];
              //this is a number[] and should be the number of tasks created, marked complete, and pending
              //we can do this based on the overall course of the project
               //[0]: complete \\ [1]: in progress  \\ [2]: blocked \\ [3]: in queue
             //labels: ['Bill', 'Bob', 'Todd'],
-            
+
 
     addData(thing: Task[]) {///Didn't have the time to test really, but I think you will want to go through the array of Tasks and for each task you will push parts of its data into the
                             /// logical data location. EX: lineChartData[0] == complete tasks so you would push this.auth.Task.completed for [0] then task.in-progress to [1]
@@ -170,8 +140,8 @@ export class MyLineChartComponent implements OnInit {
         }
     };
 
-    public pieChartLabels: string[] = ['Complete', 'In-Progress', 'Blocked', 'In-Queue'];
-    public pieChartData: number[] = [5, 3, 2, 9]; //user-specific task data goes here
+    public pieChartLabels: string[] = ['To-Do', 'In Progress', 'Complete'];
+    public pieChartData: number[] = [5, 3, 2]; //user-specific task data goes here
     public pieChartType = 'pie';
 
     pieColors = [
@@ -214,36 +184,30 @@ export class MyLineChartComponent implements OnInit {
     ];
 
     public chartClicked(e: any): void {
-        console.log(e);
+        return;
     }
 
     public chartHovered(e: any): void {
-        console.log(e);
+        return;
     }
 
     public lineChartLegend = true;
     public lineChartType = 'bar';
-    dsTasks: MatTableDataSource<Task>;
-    //dsTasks: any;
 
 
     constructor(private auth: AuthenticationService) {
-        this.dsTasks = new MatTableDataSource<Task>();
-        this.tasks = new Array();
+        this.projectTasks = new Array();
     }
 
 
     ngOnInit() {
-        //this.auth.tasks().subscribe(taskArray => {
-        //    // console.log("Returning tasks")
-        //    for (let taskItem of taskArray) {
-        //        this.tasks.push(new Task(taskItem));
-        //    }
-        //    this.updateGraphTasks();
-        //}, (err) => {
-        //    console.error(err);
-        //});
+        this.pullProjects();
     }
+
+    pullProjects() {
+        this.auth.projects
+    }
+
     updateGraphTasks() {
         //console.log(this.lineChartData[0].indexOf("data"));
         //this.lineChartLabels = [...this.lineChartLabels];
@@ -252,6 +216,3 @@ export class MyLineChartComponent implements OnInit {
         //console.log(this.tasks.map(x => x._id));
     }
 }
-
-
-    

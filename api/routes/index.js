@@ -9,7 +9,6 @@ var auth = jwt({
 var ctrlProfile = require('../controllers/profile');
 var ctrlAuth = require('../controllers/authentication');
 var ctrlTasks = require('../controllers/task');
-var ctrlMetrics = require('../controllers/metric');
 var ctrlProjects = require('../controllers/project');
 var ctrlUsers = require('../controllers/user');
 
@@ -41,7 +40,6 @@ router.post('/projects/tasks', auth, ctrlProjects.postTask);
 router.get('/users/:userid', auth, ctrlUsers.getUser);
 
 // metrics
-router.get('/metrics/user/:_id', auth, ctrlMetrics.getUserMetrics);
-// router.get('/metrics/project/:_id', auth, ctrlMetrics.getProjectMetrics);
+router.get('/metrics/:pid', auth, ctrlProjects.getMetrics);
 
 module.exports = router;

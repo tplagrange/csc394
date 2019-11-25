@@ -1,7 +1,7 @@
 <div id="graphs" >
     <div id="bar" >
         <div style="position: relative; width: 600px;">
-            <div>Group Tasks</div>
+            <div>Project Metrics</div>
             <canvas id="bar-graph" baseChart
                     [datasets]="lineChartData"
                     [labels]="lineChartLabels"
@@ -12,7 +12,7 @@
         </div>
     </div>
     <div id="pie" >
-        <div>Your Tasks</div>
+        <div>Personal Metrics</div>
         <canvas baseChart id="pie-chart"
                 [data]="pieChartData"
                 [labels]="pieChartLabels"

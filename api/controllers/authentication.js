@@ -1,7 +1,6 @@
 var passport = require('passport');
 var mongoose = require('mongoose');
 var User = mongoose.model('User');
-var UserMetrics = mongoose.model('UserMetrics');
 
 var sendJSONresponse = function(res, status, content) {
   res.status(status);
@@ -23,12 +22,6 @@ module.exports.register = function(req, res) {
   user.email = req.body.email;
 
   user.setPassword(req.body.password);
-
-  var metricsModel = new UserMetrics();
-  metricsModel.tasksClosed = 0;
-  metricsModel.save(function(err, metric) {
-     user.metrics = metric._id;
-  });
 
   user.save(function(err) {
     var token;

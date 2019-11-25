@@ -259,9 +259,11 @@ export class AuthenticationService {
       return request;
   }
 
-  // User Metric Operations
-  public getUserMetrics(id: number): Observable<any> {
-      return this.requestMetrics('users', id);
+  // Metric Operations
+  public getMetrics(projectid: string): Observable<any> {
+      let base = this.http.get(`/api/metrics/${projectid}`, { headers: { Authorization: `Bearer ${this.getToken()}` }});
+      const request = base.pipe();
+      return request;
   }
 
   public logout(): void {
