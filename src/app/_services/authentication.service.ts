@@ -20,6 +20,11 @@ export interface LightUser {
     uemail: string
 }
 
+// export interface MetricData {
+//     type: string,
+//     old: string
+// }
+
 export interface TaskDetails {
     _id: string;
     assignedTo: User;
@@ -260,11 +265,17 @@ export class AuthenticationService {
   }
 
   // Metric Operations
-  public getMetrics(projectid: string): Observable<any> {
-      let base = this.http.get(`/api/metrics/${projectid}`, { headers: { Authorization: `Bearer ${this.getToken()}` }});
-      const request = base.pipe();
-      return request;
-  }
+  // public getMetrics(projectid: string): Observable<any> {
+  //     let base = this.http.get(`/api/metrics/${projectid}`, { headers: { Authorization: `Bearer ${this.getToken()}` }});
+  //     const request = base.pipe();
+  //     return request;
+  // }
+  //
+  // public patchMetrics(projectid: string, metric: MetricData): Observable<any> {
+  //     let base = this.http.patch(`/api/metrics/${projectid}`, metric, { headers: { Authorization: `Bearer ${this.getToken()}` }});
+  //     const request = base.pipe();
+  //     return request;
+  // }
 
   public logout(): void {
     this.token = '';

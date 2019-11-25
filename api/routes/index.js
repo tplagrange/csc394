@@ -40,7 +40,8 @@ router.post('/projects/tasks', auth, ctrlProjects.postTask);
 router.get('/users/:userid', auth, ctrlUsers.getUser);
 
 // metrics
-router.get('/metrics/:pid', auth, ctrlProjects.getMetrics);
+// router.get('/metrics/:pid', auth, ctrlProjects.getMetrics);
+// router.patch('/metrics/:pid', auth, ctrlProjects.patchMetrics);
 // router.get('/metrics/user/:uid', auth, ctrlUsers.getMetrics);
 
 module.exports = router;

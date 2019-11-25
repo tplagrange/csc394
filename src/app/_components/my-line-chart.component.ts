@@ -1,4 +1,4 @@
-import { Component, OnInit,ElementRef, ViewChild, AfterContentInit, AfterViewInit, APP_ID } from '@angular/core';
+import { Input, Component, OnInit,ElementRef, ViewChild, AfterContentInit, AfterViewInit, APP_ID } from '@angular/core';
 import { ChartDataSets, ChartOptions, ChartType, ChartData } from 'chart.js';
 import { ChartsModule, BaseChartDirective } from 'ng2-charts';
 import { MatTableDataSource, MatIconRegistry } from '@angular/material';
@@ -16,9 +16,6 @@ import { interval, Subscription } from 'rxjs';
 
 export class MyLineChartComponent implements OnInit {
 
-    // Current Project Info
-    currentProjectId: string;
-
     subscription: Subscription;
     intervalId: number;
 
@@ -27,9 +24,9 @@ export class MyLineChartComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.lineChartLabels.push("Loading...");
+        this.lineChartLabels.push("");
         this.pullData();
-        this.intervalId = setInterval(() => {this.pullData();}, 5000);
+        // this.intervalId = setInterval(() => {this.pullData();}, 2000);
     }
 
     ngOnDestroy() {
@@ -38,18 +35,23 @@ export class MyLineChartComponent implements OnInit {
 
     pullData() {
         // Project Data Logic
-        if (!localStorage.getItem('project')) {
-            return;
-        } else {
-            this.currentProjectId = localStorage.getItem('project');
-            this.auth.getMetrics(this.currentProjectId).subscribe(project => {
-                // project variable holds the current project POJO
-                this.lineChartLabels[0]       = project.name;
-                this.lineChartData[0].data[0] = project.metrics.tasksOpened;
-                this.lineChartData[1].data[0] = project.metrics.tasksActive;
-                this.lineChartData[2].data[0] = project.metrics.tasksClosed;
-            });
-        }
+        // if (!localStorage.getItem('project')) {
+        //     return;
+        // } else {
+        //     this.auth.tasks(localStorage.getItem('project')).subscribe(taskArray => {
+        //         var copyLineChartData = this.lineChartData;
+        //         for (let taskItem of taskArray) {
+        //             if (taskItem.status == "To-Do") {
+        //                 copyLineChartData[0].data[0]++;
+        //             } else if (taskItem.status == "In Progress") {
+        //                 copyLineChartData[1].data[0]++;
+        //             } else {
+        //                 copyLineChartData[2].data[0]++;
+        //             }
+        //         }
+        //         this.lineChartData = copyLineChartData;
+        //     });
+        // }
         // this.auth.getUserMetrics(localStorage.getItem('user')).subscribe(user => {
         //     this.userToDo       = user.metrics.tasksOpened;
         //     this.userInProgress = user.metrics.tasksActive;
@@ -57,7 +59,7 @@ export class MyLineChartComponent implements OnInit {
         // });
     }
 
-    lineChartData: Array<any> = [
+    @Input() public lineChartData: Array<any> = [
         {
             label: "To-Do",
             backgroundColor: "burlywood",

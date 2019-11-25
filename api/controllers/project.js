@@ -172,17 +172,47 @@ module.exports.patchProject = function(req, res) {
     }
 }
 
-module.exports.getMetrics = function(req, res) {
-    if (!req.payload.exp) {
-        res.status(401).json({
-            "message" : "UnauthorizedError: private data"
-        });
-    } else {
-        var proj = Project
-                        .findById(req.params.pid)
-                        .lean()
-                        .exec(function(err, project) {
-                            res.status(200).json(project);
-                        });
-    }
-}
+// module.exports.getMetrics = function(req, res) {
+//     if (!req.payload.exp) {
+//         res.status(401).json({
+//             "message" : "UnauthorizedError: private data"
+//         });
+//     } else {
+//         var proj = Project
+//                         .findById(req.params.pid)
+//                         .lean()
+//                         .exec(function(err, project) {
+//                             res.status(200).json(project);
+//                         });
+//     }
+// }
+//
+// module.exports.patchMetrics = function(req, res) {
+//     if (!req.payload.exp) {
+//         res.status(401).json({
+//             "message" : "UnauthorizedError: private data"
+//         });
+//     } else {
+//         var proj = Project
+//                         .findById(req.params.pid)
+//                         .exec(function(err, project) {
+//                             if (req.body.type == "todo") {
+//                                 project.metrics.tasksOpened++;
+//                             } else if (req.body.type == "inprogress") {
+//                                 project.metrics.tasksActive++;
+//                             } else {
+//                                 project.metrics.tasksClosed++;
+//                             }
+//
+//                             if (req.body.old == "todo") {
+//                                 project.metrics.tasksOpened--;
+//                             } else if (req.body.old == "inprogress") {
+//                                 project.metrics.tasksActive--;
+//                             } else {
+//                                 project.metrics.tasksClose--;
+//                             }
+//                             project.save();
+//                             res.status(200).json(project);
+//                         });
+//     }
+// }
