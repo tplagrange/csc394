@@ -49,19 +49,22 @@ export class MyLineChartComponent implements OnInit {
             this.toDoData = 7;
             this.completeData = 5;
         } else {
-            this.auth.tasks(localStorage.getItem('project')).subscribe(taskArray => {
+            //this.auth.tasks(localStorage.getItem('project')).subscribe(taskArray => {
                 //var copyLineChartData = this.lineChartData;
-                for (let taskItem of taskArray) {
-                    if (taskItem.status == "To-Do") {
-                        this.toDoData++;
-                    } else if (taskItem.status == "In Progress") {
-                        this.inProgData++;
-                    } else {
-                        this.completeData++;
-                    }
-                }
+                //for (let taskItem of taskArray) {
+                //    if (taskItem.status == "To-Do") {
+                //        this.toDoData++;
+                //    } else if (taskItem.status == "In Progress") {
+                //        this.inProgData++;
+                //    } else {
+                //        this.completeData++;
+                //    }
+                //}                                 This would be how it would work, but is not functioning right now.
+                this.inProgData = 10;
+                this.toDoData = 7;
+                this.completeData = 5;
                 //this.lineChartData = copyLineChartData;
-            });
+            
         }
         //this.auth.getUser(localStorage.getItem('user')).subscribe(user => {
         //    this.pieToDo = user.metrics.tasksOpened;
