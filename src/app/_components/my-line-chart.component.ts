@@ -6,7 +6,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { AuthenticationService, TaskDetails } from '../_services';
 import { Task } from '../_classes';
 import { NgChartjsModule, NgChartjsDirective } from 'ng-chartjs';
-import { interval, Subscription } from 'rxjs';
+import { Subject, interval, Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-my-line-chart',
@@ -19,14 +19,24 @@ export class MyLineChartComponent implements OnInit {
     subscription: Subscription;
     intervalId: number;
 
+
+
+    toDoData: number = 0;
+    inProgData: number = 0;
+    completeData: number = 0;
+
+    pieToDo: number = 0;
+    pieInProg: number = 0;
+    pieComplete: number = 0;
+
     constructor(private auth: AuthenticationService) {
         this.lineChartLabels = new Array();
     }
 
     ngOnInit() {
         this.lineChartLabels.push("");
+
         this.pullData();
-        // this.intervalId = setInterval(() => {this.pullData();}, 2000);
     }
 
     ngOnDestroy() {
@@ -34,33 +44,41 @@ export class MyLineChartComponent implements OnInit {
     }
 
     pullData() {
-        // Project Data Logic
-        // if (!localStorage.getItem('project')) {
-        //     return;
-        // } else {
-        //     this.auth.tasks(localStorage.getItem('project')).subscribe(taskArray => {
-        //         var copyLineChartData = this.lineChartData;
-        //         for (let taskItem of taskArray) {
-        //             if (taskItem.status == "To-Do") {
-        //                 copyLineChartData[0].data[0]++;
-        //             } else if (taskItem.status == "In Progress") {
-        //                 copyLineChartData[1].data[0]++;
-        //             } else {
-        //                 copyLineChartData[2].data[0]++;
-        //             }
-        //         }
-        //         this.lineChartData = copyLineChartData;
-        //     });
-        // }
-        // this.auth.getUserMetrics(localStorage.getItem('user')).subscribe(user => {
-        //     this.userToDo       = user.metrics.tasksOpened;
-        //     this.userInProgress = user.metrics.tasksActive;
-        //     this.userComplete   = user.metrics.tasksClosed;
-        // });
+        if (!localStorage.getItem('project')) {
+            this.inProgData = 10;
+            this.toDoData = 7;
+            this.completeData = 5;
+        } else {
+            this.auth.tasks(localStorage.getItem('project')).subscribe(taskArray => {
+                //var copyLineChartData = this.lineChartData;
+                for (let taskItem of taskArray) {
+                    if (taskItem.status == "To-Do") {
+                        this.toDoData++;
+                    } else if (taskItem.status == "In Progress") {
+                        this.inProgData++;
+                    } else {
+                        this.completeData++;
+                    }
+                }
+                //this.lineChartData = copyLineChartData;
+            });
+        }
+        //this.auth.getUser(localStorage.getItem('user')).subscribe(user => {
+        //    this.pieToDo = user.metrics.tasksOpened;
+        //    this.pieInProg = user.metrics.tasksActive;
+        //    this.pieComplete   = user.metrics.tasksClosed;
+        //});
+
+        this.lineChartData[0].data.push(this.toDoData);
+        this.lineChartData[1].data.push(this.inProgData);
+        this.lineChartData[2].data.push(this.completeData);
+        //this.pieChartData[0] = this.pieToDo;
+        //this.pieChartData[1] = this.pieInProg;
+        //this.pieChartData[2] = this.pieComplete;
+
     }
 
-    @Input() public lineChartData: Array<any> = [
-        {
+    @Input() public lineChartData: Array<any> = [{
             label: "To-Do",
             backgroundColor: "burlywood",
             fill: false,
@@ -80,7 +98,7 @@ export class MyLineChartComponent implements OnInit {
             pointHoverBorderWidth: 2,
             pointRadius: 1,
             pointHitRadius: 10,
-            data: [ 0 ]
+            data: []
         },
         {
             label: "In-Progress",
@@ -102,7 +120,8 @@ export class MyLineChartComponent implements OnInit {
             pointHoverBorderWidth: 2,
             pointRadius: 1,
             pointHitRadius: 10,
-            data: [ 0 ]
+            data: []
+
         },
         {
             label: "Complete",
@@ -124,7 +143,7 @@ export class MyLineChartComponent implements OnInit {
             pointHoverBorderWidth: 2,
             pointRadius: 1,
             pointHitRadius: 10,
-            data: [ 0 ]
+            data: []
         }
     ];
 
@@ -169,7 +188,9 @@ export class MyLineChartComponent implements OnInit {
     };
 
     pieChartLabels: string[] = ['To-Do', 'In Progress', 'Complete'];
-    pieChartData: number[] = [5, 3, 2]; //user-specific task data goes here
+
+    pieChartData: number[] = [2,5,6]; //user-specific task data goes here
+
     pieChartType = 'pie';
 
     pieColors = [
@@ -212,10 +233,12 @@ export class MyLineChartComponent implements OnInit {
     ];
 
     public chartClicked(e: any): void {
+        //this.pullData();
         return;
     }
 
     public chartHovered(e: any): void {
+        //this.pullData();
         return;
     }
 
