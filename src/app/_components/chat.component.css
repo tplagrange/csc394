@@ -1,7 +1,8 @@
 .chat-container {
   max-height: 500px
+  /*height: 100%*/
 }
 
 nb-chat {
-  width: 100%;
+  /*width: 100%;*/
 }

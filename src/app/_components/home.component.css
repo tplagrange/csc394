@@ -1,23 +1,37 @@
 .app-table {
-    min-width: 200px;
+    /*min-width: 200px;
     width: 100%;
     margin: auto;
     float: left;
     max-height: 60%;
-    z-index: 100;
+    z-index: 100;*/
 }
 
 .app-container {
-    min-width: 1140px;
+    /*min-width: 1140px;*/
 }
 
 #metrics {
-    max-height: 35%;
+    /*max-height: 35%;
     margin-top: 5%;
     z-index: 100;
-    display: inline-block;
+    display: inline-block;*/
 }
 
+#table{
+
+}
+
+#chat {
+}
+
+#table-chat{
+
+}
+
+.table-chat{
+
+}
 .logout{
 
 	top:25%;
